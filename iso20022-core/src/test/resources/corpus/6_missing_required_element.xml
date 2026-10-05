@@ -1,0 +1,9 @@
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.12">
+    <FIToFIPmtStsRpt>
+        <!-- Missing GrpHdr which is required -->
+        <TxInfAndSts>
+            <OrgnlInstrId>INSTR123</OrgnlInstrId>
+            <TxSts>ACCP</TxSts>
+        </TxInfAndSts>
+    </FIToFIPmtStsRpt>
+</Document>

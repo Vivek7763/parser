@@ -1,0 +1,13 @@
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.12">
+    <FIToFIPmtStsRpt>
+        <GrpHdr>
+            <MsgId>MSGID123</MsgId>
+            <!-- Invalid ISODateTime format -->
+            <CreDtTm>NOT-A-DATE</CreDtTm>
+        </GrpHdr>
+        <TxInfAndSts>
+            <OrgnlInstrId>INSTR123</OrgnlInstrId>
+            <TxSts>ACCP</TxSts>
+        </TxInfAndSts>
+    </FIToFIPmtStsRpt>
+</Document>

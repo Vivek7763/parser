@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.07"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.07"
+           elementFormDefault="qualified">
+
+    <xs:element name="Document" type="Document"/>
+
+    <xs:complexType name="Document">
+        <xs:sequence>
+            <xs:element name="FIToFICstmrCdtTrf" type="FIToFICustomerCreditTransferV07"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="FIToFICustomerCreditTransferV07">
+        <xs:sequence>
+            <xs:element name="GrpHdr" type="GroupHeader70"/>
+            <!-- skipping others for POC -->
+            <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="GroupHeader70">
+        <xs:sequence>
+            <xs:element name="MsgId" type="Max35Text"/>
+            <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="Max35Text">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="35"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

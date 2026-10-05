@@ -1,0 +1,1204 @@
+Initialized native services in: /Users/GaneshvivekMannam/.gradle/native
+Initialized jansi services in: /Users/GaneshvivekMannam/.gradle/native
+The client will now receive all logging from the daemon (pid: 31573). The daemon log file: /Users/GaneshvivekMannam/.gradle/daemon/8.14.5/daemon-31573.out.log
+Starting 30th build in daemon [uptime: 4 hrs 5 mins 11.827 secs, performance: 91%, GC rate: 0.00/s, heap usage: 69% of 512 MiB, non-heap usage: 31% of 384 MiB]
+Using 8 worker leases.
+Now considering [/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022] as hierarchies to watch
+Watching the file system is configured to be enabled if available
+File system watching is active
+Starting Build
+Settings evaluated using settings file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/settings.gradle'.
+Projects loaded. Root project using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/build.gradle'.
+Included projects: [root project 'prowide-iso20022', project ':iso20022-core', project ':model-acmt-mx', project ':model-acmt-types', project ':model-admi-mx', project ':model-admi-types', project ':model-auth-mx', project ':model-auth-types', project ':model-caaa-mx', project ':model-caaa-types', project ':model-caad-mx', project ':model-caad-types', project ':model-caam-mx', project ':model-caam-types', project ':model-cafc-mx', project ':model-cafc-types', project ':model-cafm-mx', project ':model-cafm-types', project ':model-cafr-mx', project ':model-cafr-types', project ':model-cain-mx', project ':model-cain-types', project ':model-camt-mx', project ':model-camt-types', project ':model-canm-mx', project ':model-canm-types', project ':model-casp-mx', project ':model-casp-types', project ':model-casr-mx', project ':model-casr-types', project ':model-catm-mx', project ':model-catm-types', project ':model-catp-mx', project ':model-catp-types', project ':model-cbrf-mx', project ':model-cbrf-types', project ':model-colr-mx', project ':model-colr-types', project ':model-common-types', project ':model-fxtr-mx', project ':model-fxtr-types', project ':model-pacs-mx', project ':model-pacs-types', project ':model-pain-mx', project ':model-pain-types', project ':model-reda-mx', project ':model-reda-types', project ':model-remt-mx', project ':model-remt-types', project ':model-secl-mx', project ':model-secl-types', project ':model-seev-mx', project ':model-seev-types', project ':model-semt-mx', project ':model-semt-types', project ':model-sese-mx', project ':model-sese-types', project ':model-seti-mx', project ':model-seti-types', project ':model-setr-mx', project ':model-setr-types', project ':model-supl-mx', project ':model-supl-types', project ':model-trck-mx', project ':model-trck-types', project ':model-tsin-mx', project ':model-tsin-types', project ':model-tsmt-mx', project ':model-tsmt-types', project ':model-tsrv-mx', project ':model-tsrv-types', project ':model-xsys-mx', project ':model-xsys-types']
+
+> Configure project :
+Evaluating root project 'prowide-iso20022' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/build.gradle'.
+Adding pw-iso20022-core-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-acmt-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-acmt-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-admi-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-admi-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-auth-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-auth-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-caaa-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-caaa-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-caad-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-caad-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-caam-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-caam-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-cafc-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-cafc-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-cafm-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-cafm-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-cafr-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-cafr-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-cain-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-cain-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-camt-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-camt-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-canm-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-canm-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-casp-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-casp-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-casr-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-casr-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-catm-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-catm-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-catp-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-catp-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-cbrf-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-cbrf-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-colr-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-colr-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-common-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-fxtr-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-fxtr-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-pacs-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-pacs-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-pain-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-pain-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-reda-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-reda-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-remt-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-remt-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-secl-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-secl-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-seev-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-seev-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-semt-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-semt-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-sese-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-sese-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-seti-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-seti-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-setr-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-setr-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-supl-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-supl-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-trck-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-trck-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-tsin-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-tsin-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-tsmt-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-tsmt-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-tsrv-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-tsrv-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-xsys-mx-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Adding pw-iso20022-model-xsys-types-SRU2025-10.3.12-SNAPSHOT.jar to fat jar
+Prowide publishing disabled because repository properties are undefined
+
+> Configure project :iso20022-core
+Evaluating project ':iso20022-core' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/iso20022-core/build.gradle'.
+
+> Configure project :model-acmt-mx
+Evaluating project ':model-acmt-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-acmt-mx/build.gradle'.
+
+> Configure project :model-acmt-types
+Evaluating project ':model-acmt-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-acmt-types/build.gradle'.
+
+> Configure project :model-admi-mx
+Evaluating project ':model-admi-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-admi-mx/build.gradle'.
+
+> Configure project :model-admi-types
+Evaluating project ':model-admi-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-admi-types/build.gradle'.
+
+> Configure project :model-auth-mx
+Evaluating project ':model-auth-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-auth-mx/build.gradle'.
+
+> Configure project :model-auth-types
+Evaluating project ':model-auth-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-auth-types/build.gradle'.
+
+> Configure project :model-caaa-mx
+Evaluating project ':model-caaa-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-caaa-mx/build.gradle'.
+
+> Configure project :model-caaa-types
+Evaluating project ':model-caaa-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-caaa-types/build.gradle'.
+
+> Configure project :model-caad-mx
+Evaluating project ':model-caad-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-caad-mx/build.gradle'.
+
+> Configure project :model-caad-types
+Evaluating project ':model-caad-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-caad-types/build.gradle'.
+
+> Configure project :model-caam-mx
+Evaluating project ':model-caam-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-caam-mx/build.gradle'.
+
+> Configure project :model-caam-types
+Evaluating project ':model-caam-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-caam-types/build.gradle'.
+
+> Configure project :model-cafc-mx
+Evaluating project ':model-cafc-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-cafc-mx/build.gradle'.
+
+> Configure project :model-cafc-types
+Evaluating project ':model-cafc-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-cafc-types/build.gradle'.
+
+> Configure project :model-cafm-mx
+Evaluating project ':model-cafm-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-cafm-mx/build.gradle'.
+
+> Configure project :model-cafm-types
+Evaluating project ':model-cafm-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-cafm-types/build.gradle'.
+
+> Configure project :model-cafr-mx
+Evaluating project ':model-cafr-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-cafr-mx/build.gradle'.
+
+> Configure project :model-cafr-types
+Evaluating project ':model-cafr-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-cafr-types/build.gradle'.
+
+> Configure project :model-cain-mx
+Evaluating project ':model-cain-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-cain-mx/build.gradle'.
+
+> Configure project :model-cain-types
+Evaluating project ':model-cain-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-cain-types/build.gradle'.
+
+> Configure project :model-camt-mx
+Evaluating project ':model-camt-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-camt-mx/build.gradle'.
+
+> Configure project :model-camt-types
+Evaluating project ':model-camt-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-camt-types/build.gradle'.
+
+> Configure project :model-canm-mx
+Evaluating project ':model-canm-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-canm-mx/build.gradle'.
+
+> Configure project :model-canm-types
+Evaluating project ':model-canm-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-canm-types/build.gradle'.
+
+> Configure project :model-casp-mx
+Evaluating project ':model-casp-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-casp-mx/build.gradle'.
+
+> Configure project :model-casp-types
+Evaluating project ':model-casp-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-casp-types/build.gradle'.
+
+> Configure project :model-casr-mx
+Evaluating project ':model-casr-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-casr-mx/build.gradle'.
+
+> Configure project :model-casr-types
+Evaluating project ':model-casr-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-casr-types/build.gradle'.
+
+> Configure project :model-catm-mx
+Evaluating project ':model-catm-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-catm-mx/build.gradle'.
+
+> Configure project :model-catm-types
+Evaluating project ':model-catm-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-catm-types/build.gradle'.
+
+> Configure project :model-catp-mx
+Evaluating project ':model-catp-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-catp-mx/build.gradle'.
+
+> Configure project :model-catp-types
+Evaluating project ':model-catp-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-catp-types/build.gradle'.
+
+> Configure project :model-cbrf-mx
+Evaluating project ':model-cbrf-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-cbrf-mx/build.gradle'.
+
+> Configure project :model-cbrf-types
+Evaluating project ':model-cbrf-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-cbrf-types/build.gradle'.
+
+> Configure project :model-colr-mx
+Evaluating project ':model-colr-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-colr-mx/build.gradle'.
+
+> Configure project :model-colr-types
+Evaluating project ':model-colr-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-colr-types/build.gradle'.
+
+> Configure project :model-common-types
+Evaluating project ':model-common-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-common-types/build.gradle'.
+
+> Configure project :model-fxtr-mx
+Evaluating project ':model-fxtr-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-fxtr-mx/build.gradle'.
+
+> Configure project :model-fxtr-types
+Evaluating project ':model-fxtr-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-fxtr-types/build.gradle'.
+
+> Configure project :model-pacs-mx
+Evaluating project ':model-pacs-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-pacs-mx/build.gradle'.
+
+> Configure project :model-pacs-types
+Evaluating project ':model-pacs-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-pacs-types/build.gradle'.
+
+> Configure project :model-pain-mx
+Evaluating project ':model-pain-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-pain-mx/build.gradle'.
+
+> Configure project :model-pain-types
+Evaluating project ':model-pain-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-pain-types/build.gradle'.
+
+> Configure project :model-reda-mx
+Evaluating project ':model-reda-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-reda-mx/build.gradle'.
+
+> Configure project :model-reda-types
+Evaluating project ':model-reda-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-reda-types/build.gradle'.
+
+> Configure project :model-remt-mx
+Evaluating project ':model-remt-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-remt-mx/build.gradle'.
+
+> Configure project :model-remt-types
+Evaluating project ':model-remt-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-remt-types/build.gradle'.
+
+> Configure project :model-secl-mx
+Evaluating project ':model-secl-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-secl-mx/build.gradle'.
+
+> Configure project :model-secl-types
+Evaluating project ':model-secl-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-secl-types/build.gradle'.
+
+> Configure project :model-seev-mx
+Evaluating project ':model-seev-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-seev-mx/build.gradle'.
+
+> Configure project :model-seev-types
+Evaluating project ':model-seev-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-seev-types/build.gradle'.
+
+> Configure project :model-semt-mx
+Evaluating project ':model-semt-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-semt-mx/build.gradle'.
+
+> Configure project :model-semt-types
+Evaluating project ':model-semt-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-semt-types/build.gradle'.
+
+> Configure project :model-sese-mx
+Evaluating project ':model-sese-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-sese-mx/build.gradle'.
+
+> Configure project :model-sese-types
+Evaluating project ':model-sese-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-sese-types/build.gradle'.
+
+> Configure project :model-seti-mx
+Evaluating project ':model-seti-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-seti-mx/build.gradle'.
+
+> Configure project :model-seti-types
+Evaluating project ':model-seti-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-seti-types/build.gradle'.
+
+> Configure project :model-setr-mx
+Evaluating project ':model-setr-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-setr-mx/build.gradle'.
+
+> Configure project :model-setr-types
+Evaluating project ':model-setr-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-setr-types/build.gradle'.
+
+> Configure project :model-supl-mx
+Evaluating project ':model-supl-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-supl-mx/build.gradle'.
+
+> Configure project :model-supl-types
+Evaluating project ':model-supl-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-supl-types/build.gradle'.
+
+> Configure project :model-trck-mx
+Evaluating project ':model-trck-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-trck-mx/build.gradle'.
+
+> Configure project :model-trck-types
+Evaluating project ':model-trck-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-trck-types/build.gradle'.
+
+> Configure project :model-tsin-mx
+Evaluating project ':model-tsin-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-tsin-mx/build.gradle'.
+
+> Configure project :model-tsin-types
+Evaluating project ':model-tsin-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-tsin-types/build.gradle'.
+
+> Configure project :model-tsmt-mx
+Evaluating project ':model-tsmt-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-tsmt-mx/build.gradle'.
+
+> Configure project :model-tsmt-types
+Evaluating project ':model-tsmt-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-tsmt-types/build.gradle'.
+
+> Configure project :model-tsrv-mx
+Evaluating project ':model-tsrv-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-tsrv-mx/build.gradle'.
+
+> Configure project :model-tsrv-types
+Evaluating project ':model-tsrv-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-tsrv-types/build.gradle'.
+
+> Configure project :model-xsys-mx
+Evaluating project ':model-xsys-mx' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-xsys-mx/build.gradle'.
+
+> Configure project :model-xsys-types
+Evaluating project ':model-xsys-types' using build file '/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/model-xsys-types/build.gradle'.
+All projects evaluated.
+Task path ':iso20022-core:test' matched project ':iso20022-core'
+Task name matched 'test'
+Selected primary task 'test' from project :iso20022-core
+Starting process 'command '/usr/libexec/java_home''. Working directory: /Users/GaneshvivekMannam/.gradle/daemon/8.14.5 Command: /usr/libexec/java_home -V
+Successfully started process 'command '/usr/libexec/java_home''
+Java Toolchain auto-detection failed to find local MacOS system JVMs
+Tasks to be executed: [task ':model-common-types:compileJava', task ':iso20022-core:compileJava', task ':iso20022-core:processResources', task ':iso20022-core:classes', task ':iso20022-core:jar', task ':model-acmt-types:compileJava', task ':model-acmt-mx:compileJava', task ':model-admi-types:compileJava', task ':model-admi-mx:compileJava', task ':model-camt-types:compileJava', task ':model-camt-mx:compileJava', task ':model-catm-types:compileJava', task ':model-catm-mx:compileJava', task ':model-fxtr-types:compileJava', task ':model-fxtr-mx:compileJava', task ':model-pacs-types:compileJava', task ':model-pacs-mx:compileJava', task ':model-pain-types:compileJava', task ':model-pain-mx:compileJava', task ':model-seev-types:compileJava', task ':model-seev-mx:compileJava', task ':model-sese-types:compileJava', task ':model-sese-mx:compileJava', task ':model-xsys-types:compileJava', task ':model-xsys-mx:compileJava', task ':iso20022-core:compileTestJava', task ':iso20022-core:processTestResources', task ':iso20022-core:testClasses', task ':model-acmt-mx:processResources', task ':model-acmt-mx:classes', task ':model-acmt-mx:jar', task ':model-acmt-types:processResources', task ':model-acmt-types:classes', task ':model-acmt-types:jar', task ':model-admi-mx:processResources', task ':model-admi-mx:classes', task ':model-admi-mx:jar', task ':model-admi-types:processResources', task ':model-admi-types:classes', task ':model-admi-types:jar', task ':model-camt-mx:processResources', task ':model-camt-mx:classes', task ':model-camt-mx:jar', task ':model-camt-types:processResources', task ':model-camt-types:classes', task ':model-camt-types:jar', task ':model-catm-mx:processResources', task ':model-catm-mx:classes', task ':model-catm-mx:jar', task ':model-catm-types:processResources', task ':model-catm-types:classes', task ':model-catm-types:jar', task ':model-common-types:processResources', task ':model-common-types:classes', task ':model-common-types:jar', task ':model-fxtr-mx:processResources', task ':model-fxtr-mx:classes', task ':model-fxtr-mx:jar', task ':model-fxtr-types:processResources', task ':model-fxtr-types:classes', task ':model-fxtr-types:jar', task ':model-pacs-mx:processResources', task ':model-pacs-mx:classes', task ':model-pacs-mx:jar', task ':model-pacs-types:processResources', task ':model-pacs-types:classes', task ':model-pacs-types:jar', task ':model-pain-mx:processResources', task ':model-pain-mx:classes', task ':model-pain-mx:jar', task ':model-pain-types:processResources', task ':model-pain-types:classes', task ':model-pain-types:jar', task ':model-seev-mx:processResources', task ':model-seev-mx:classes', task ':model-seev-mx:jar', task ':model-seev-types:processResources', task ':model-seev-types:classes', task ':model-seev-types:jar', task ':model-sese-mx:processResources', task ':model-sese-mx:classes', task ':model-sese-mx:jar', task ':model-sese-types:processResources', task ':model-sese-types:classes', task ':model-sese-types:jar', task ':model-xsys-mx:processResources', task ':model-xsys-mx:classes', task ':model-xsys-mx:jar', task ':model-xsys-types:processResources', task ':model-xsys-types:classes', task ':model-xsys-types:jar', task ':iso20022-core:test', task ':spotlessInternalRegisterDependencies', task ':iso20022-core:spotlessJava', task ':iso20022-core:spotlessJavaCheck', task ':iso20022-core:spotlessCheck']
+Tasks that were excluded: []
+Resolve mutations for :model-common-types:compileJava (Thread[Execution worker,5,main]) started.
+:model-common-types:compileJava (Thread[Execution worker,5,main]) started.
+
+> Task :model-common-types:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-common-types:compileJava'.
+Caching disabled for task ':model-common-types:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-common-types:compileJava' as it is up-to-date.
+No compile result for :model-common-types:compileJava
+No compile result for :model-common-types:compileJava
+No compile result for :model-common-types:compileJava
+work action resolve main (project :model-common-types) (Thread[Execution worker,5,main]) started.
+Resolve mutations for :iso20022-core:compileJava (Thread[Execution worker,5,main]) started.
+:iso20022-core:compileJava (Thread[Execution worker,5,main]) started.
+
+> Task :iso20022-core:compileJava UP-TO-DATE
+Custom actions are attached to task ':iso20022-core:compileJava'.
+Caching disabled for task ':iso20022-core:compileJava' because:
+  Build cache is disabled
+Skipping task ':iso20022-core:compileJava' as it is up-to-date.
+No compile result for :iso20022-core:compileJava
+No compile result for :iso20022-core:compileJava
+No compile result for :iso20022-core:compileJava
+work action resolve main (project :iso20022-core) (Thread[Execution worker,5,main]) started.
+Resolve mutations for :iso20022-core:processResources (Thread[Execution worker,5,main]) started.
+:iso20022-core:processResources (Thread[Execution worker,5,main]) started.
+
+> Task :iso20022-core:processResources UP-TO-DATE
+Caching disabled for task ':iso20022-core:processResources' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':iso20022-core:processResources' as it is up-to-date.
+Resolve mutations for :iso20022-core:classes (Thread[Execution worker,5,main]) started.
+:iso20022-core:classes (Thread[Execution worker,5,main]) started.
+
+> Task :iso20022-core:classes UP-TO-DATE
+Skipping task ':iso20022-core:classes' as it has no actions.
+Resolve mutations for :iso20022-core:jar (Thread[Execution worker,5,main]) started.
+:iso20022-core:jar (Thread[Execution worker,5,main]) started.
+
+> Task :iso20022-core:jar UP-TO-DATE
+Caching disabled for task ':iso20022-core:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':iso20022-core:jar' as it is up-to-date.
+work action resolve pw-iso20022-core-SRU2025-10.3.12-SNAPSHOT.jar (project :iso20022-core) (Thread[Execution worker,5,main]) started.
+Resolve mutations for :model-acmt-types:compileJava (Thread[Execution worker,5,main]) started.
+:model-acmt-types:compileJava (Thread[Execution worker,5,main]) started.
+
+> Task :model-acmt-types:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-acmt-types:compileJava'.
+Caching disabled for task ':model-acmt-types:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-acmt-types:compileJava' as it is up-to-date.
+No compile result for :model-acmt-types:compileJava
+No compile result for :model-acmt-types:compileJava
+No compile result for :model-acmt-types:compileJava
+work action resolve main (project :model-acmt-types) (Thread[Execution worker,5,main]) started.
+Resolve mutations for :model-acmt-mx:compileJava (Thread[included builds,5,main]) started.
+:model-acmt-mx:compileJava (Thread[included builds,5,main]) started.
+
+> Task :model-acmt-mx:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-acmt-mx:compileJava'.
+Caching disabled for task ':model-acmt-mx:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-acmt-mx:compileJava' as it is up-to-date.
+No compile result for :model-acmt-mx:compileJava
+No compile result for :model-acmt-mx:compileJava
+No compile result for :model-acmt-mx:compileJava
+work action resolve main (project :model-acmt-mx) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-admi-types:compileJava (Thread[included builds,5,main]) started.
+:model-admi-types:compileJava (Thread[included builds,5,main]) started.
+
+> Task :model-admi-types:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-admi-types:compileJava'.
+Caching disabled for task ':model-admi-types:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-admi-types:compileJava' as it is up-to-date.
+No compile result for :model-admi-types:compileJava
+No compile result for :model-admi-types:compileJava
+No compile result for :model-admi-types:compileJava
+work action resolve main (project :model-admi-types) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-admi-mx:compileJava (Thread[included builds,5,main]) started.
+:model-admi-mx:compileJava (Thread[included builds,5,main]) started.
+
+> Task :model-admi-mx:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-admi-mx:compileJava'.
+Caching disabled for task ':model-admi-mx:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-admi-mx:compileJava' as it is up-to-date.
+No compile result for :model-admi-mx:compileJava
+No compile result for :model-admi-mx:compileJava
+No compile result for :model-admi-mx:compileJava
+work action resolve main (project :model-admi-mx) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-camt-types:compileJava (Thread[included builds,5,main]) started.
+:model-camt-types:compileJava (Thread[included builds,5,main]) started.
+
+> Task :model-camt-types:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-camt-types:compileJava'.
+Caching disabled for task ':model-camt-types:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-camt-types:compileJava' as it is up-to-date.
+No compile result for :model-camt-types:compileJava
+No compile result for :model-camt-types:compileJava
+No compile result for :model-camt-types:compileJava
+work action resolve main (project :model-camt-types) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-camt-mx:compileJava (Thread[included builds,5,main]) started.
+:model-camt-mx:compileJava (Thread[included builds,5,main]) started.
+
+> Task :model-camt-mx:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-camt-mx:compileJava'.
+Caching disabled for task ':model-camt-mx:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-camt-mx:compileJava' as it is up-to-date.
+No compile result for :model-camt-mx:compileJava
+No compile result for :model-camt-mx:compileJava
+No compile result for :model-camt-mx:compileJava
+work action resolve main (project :model-camt-mx) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-catm-types:compileJava (Thread[included builds,5,main]) started.
+:model-catm-types:compileJava (Thread[included builds,5,main]) started.
+
+> Task :model-catm-types:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-catm-types:compileJava'.
+Caching disabled for task ':model-catm-types:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-catm-types:compileJava' as it is up-to-date.
+No compile result for :model-catm-types:compileJava
+No compile result for :model-catm-types:compileJava
+No compile result for :model-catm-types:compileJava
+work action resolve main (project :model-catm-types) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-catm-mx:compileJava (Thread[included builds,5,main]) started.
+:model-catm-mx:compileJava (Thread[included builds,5,main]) started.
+
+> Task :model-catm-mx:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-catm-mx:compileJava'.
+Caching disabled for task ':model-catm-mx:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-catm-mx:compileJava' as it is up-to-date.
+No compile result for :model-catm-mx:compileJava
+No compile result for :model-catm-mx:compileJava
+No compile result for :model-catm-mx:compileJava
+work action resolve main (project :model-catm-mx) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-fxtr-types:compileJava (Thread[included builds,5,main]) started.
+:model-fxtr-types:compileJava (Thread[included builds,5,main]) started.
+
+> Task :model-fxtr-types:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-fxtr-types:compileJava'.
+Caching disabled for task ':model-fxtr-types:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-fxtr-types:compileJava' as it is up-to-date.
+No compile result for :model-fxtr-types:compileJava
+No compile result for :model-fxtr-types:compileJava
+No compile result for :model-fxtr-types:compileJava
+work action resolve main (project :model-fxtr-types) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-fxtr-mx:compileJava (Thread[included builds,5,main]) started.
+:model-fxtr-mx:compileJava (Thread[included builds,5,main]) started.
+
+> Task :model-fxtr-mx:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-fxtr-mx:compileJava'.
+Caching disabled for task ':model-fxtr-mx:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-fxtr-mx:compileJava' as it is up-to-date.
+No compile result for :model-fxtr-mx:compileJava
+No compile result for :model-fxtr-mx:compileJava
+No compile result for :model-fxtr-mx:compileJava
+work action resolve main (project :model-fxtr-mx) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-pacs-types:compileJava (Thread[included builds,5,main]) started.
+:model-pacs-types:compileJava (Thread[included builds,5,main]) started.
+
+> Task :model-pacs-types:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-pacs-types:compileJava'.
+Caching disabled for task ':model-pacs-types:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-pacs-types:compileJava' as it is up-to-date.
+No compile result for :model-pacs-types:compileJava
+No compile result for :model-pacs-types:compileJava
+No compile result for :model-pacs-types:compileJava
+work action resolve main (project :model-pacs-types) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-pacs-mx:compileJava (Thread[included builds,5,main]) started.
+:model-pacs-mx:compileJava (Thread[included builds,5,main]) started.
+
+> Task :model-pacs-mx:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-pacs-mx:compileJava'.
+Caching disabled for task ':model-pacs-mx:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-pacs-mx:compileJava' as it is up-to-date.
+No compile result for :model-pacs-mx:compileJava
+No compile result for :model-pacs-mx:compileJava
+No compile result for :model-pacs-mx:compileJava
+work action resolve main (project :model-pacs-mx) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-pain-types:compileJava (Thread[included builds,5,main]) started.
+:model-pain-types:compileJava (Thread[included builds,5,main]) started.
+
+> Task :model-pain-types:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-pain-types:compileJava'.
+Caching disabled for task ':model-pain-types:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-pain-types:compileJava' as it is up-to-date.
+No compile result for :model-pain-types:compileJava
+No compile result for :model-pain-types:compileJava
+No compile result for :model-pain-types:compileJava
+work action resolve main (project :model-pain-types) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-pain-mx:compileJava (Thread[included builds,5,main]) started.
+:model-pain-mx:compileJava (Thread[included builds,5,main]) started.
+
+> Task :model-pain-mx:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-pain-mx:compileJava'.
+Caching disabled for task ':model-pain-mx:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-pain-mx:compileJava' as it is up-to-date.
+No compile result for :model-pain-mx:compileJava
+No compile result for :model-pain-mx:compileJava
+No compile result for :model-pain-mx:compileJava
+work action resolve main (project :model-pain-mx) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-seev-types:compileJava (Thread[included builds,5,main]) started.
+:model-seev-types:compileJava (Thread[included builds,5,main]) started.
+
+> Task :model-seev-types:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-seev-types:compileJava'.
+Caching disabled for task ':model-seev-types:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-seev-types:compileJava' as it is up-to-date.
+No compile result for :model-seev-types:compileJava
+No compile result for :model-seev-types:compileJava
+No compile result for :model-seev-types:compileJava
+work action resolve main (project :model-seev-types) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-seev-mx:compileJava (Thread[included builds,5,main]) started.
+:model-seev-mx:compileJava (Thread[included builds,5,main]) started.
+
+> Task :model-seev-mx:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-seev-mx:compileJava'.
+Caching disabled for task ':model-seev-mx:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-seev-mx:compileJava' as it is up-to-date.
+No compile result for :model-seev-mx:compileJava
+No compile result for :model-seev-mx:compileJava
+No compile result for :model-seev-mx:compileJava
+work action resolve main (project :model-seev-mx) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-sese-types:compileJava (Thread[included builds,5,main]) started.
+:model-sese-types:compileJava (Thread[included builds,5,main]) started.
+
+> Task :model-sese-types:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-sese-types:compileJava'.
+Caching disabled for task ':model-sese-types:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-sese-types:compileJava' as it is up-to-date.
+No compile result for :model-sese-types:compileJava
+No compile result for :model-sese-types:compileJava
+No compile result for :model-sese-types:compileJava
+work action resolve main (project :model-sese-types) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-sese-mx:compileJava (Thread[included builds,5,main]) started.
+:model-sese-mx:compileJava (Thread[included builds,5,main]) started.
+
+> Task :model-sese-mx:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-sese-mx:compileJava'.
+Caching disabled for task ':model-sese-mx:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-sese-mx:compileJava' as it is up-to-date.
+No compile result for :model-sese-mx:compileJava
+No compile result for :model-sese-mx:compileJava
+No compile result for :model-sese-mx:compileJava
+work action resolve main (project :model-sese-mx) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-xsys-types:compileJava (Thread[included builds,5,main]) started.
+:model-xsys-types:compileJava (Thread[included builds,5,main]) started.
+
+> Task :model-xsys-types:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-xsys-types:compileJava'.
+Caching disabled for task ':model-xsys-types:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-xsys-types:compileJava' as it is up-to-date.
+No compile result for :model-xsys-types:compileJava
+No compile result for :model-xsys-types:compileJava
+No compile result for :model-xsys-types:compileJava
+work action resolve main (project :model-xsys-types) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-xsys-mx:compileJava (Thread[included builds,5,main]) started.
+:model-xsys-mx:compileJava (Thread[included builds,5,main]) started.
+
+> Task :model-xsys-mx:compileJava UP-TO-DATE
+Custom actions are attached to task ':model-xsys-mx:compileJava'.
+Caching disabled for task ':model-xsys-mx:compileJava' because:
+  Build cache is disabled
+Skipping task ':model-xsys-mx:compileJava' as it is up-to-date.
+No compile result for :model-xsys-mx:compileJava
+No compile result for :model-xsys-mx:compileJava
+No compile result for :model-xsys-mx:compileJava
+work action resolve main (project :model-xsys-mx) (Thread[included builds,5,main]) started.
+Resolve mutations for :iso20022-core:compileTestJava (Thread[included builds,5,main]) started.
+:iso20022-core:compileTestJava (Thread[included builds,5,main]) started.
+
+> Task :iso20022-core:compileTestJava
+Custom actions are attached to task ':iso20022-core:compileTestJava'.
+Caching disabled for task ':iso20022-core:compileTestJava' because:
+  Build cache is disabled
+Task ':iso20022-core:compileTestJava' is not up-to-date because:
+  Input property 'stableSources' file /Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/iso20022-core/src/test/java/com/prowidesoftware/swift/model/mx/SpELSemanticValidationTest.java has changed.
+Compilation mode: in-process compilation
+Created classpath snapshot for incremental compilation in 0.021 secs.
+Compiling with toolchain '/opt/homebrew/Cellar/openjdk@11/11.0.32.1/libexec/openjdk.jdk/Contents/Home'.
+Compiling with JDK Java compiler API.
+Incremental compilation of 1 classes completed in 0.9 secs.
+Class dependency analysis for incremental compilation took 0.01 secs.
+Compiling with /opt/homebrew/Cellar/openjdk@11/11.0.32.1/libexec/openjdk.jdk/Contents/Home
+Resolve mutations for :iso20022-core:processTestResources (Thread[included builds,5,main]) started.
+:iso20022-core:processTestResources (Thread[included builds,5,main]) started.
+
+> Task :iso20022-core:processTestResources UP-TO-DATE
+Caching disabled for task ':iso20022-core:processTestResources' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':iso20022-core:processTestResources' as it is up-to-date.
+Resolve mutations for :iso20022-core:testClasses (Thread[included builds,5,main]) started.
+:iso20022-core:testClasses (Thread[included builds,5,main]) started.
+
+> Task :iso20022-core:testClasses
+Skipping task ':iso20022-core:testClasses' as it has no actions.
+Resolve mutations for :model-acmt-mx:processResources (Thread[included builds,5,main]) started.
+:model-acmt-mx:processResources (Thread[included builds,5,main]) started.
+
+> Task :model-acmt-mx:processResources NO-SOURCE
+Skipping task ':model-acmt-mx:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-acmt-mx:classes (Thread[included builds,5,main]) started.
+:model-acmt-mx:classes (Thread[included builds,5,main]) started.
+
+> Task :model-acmt-mx:classes UP-TO-DATE
+Skipping task ':model-acmt-mx:classes' as it has no actions.
+Resolve mutations for :model-acmt-mx:jar (Thread[included builds,5,main]) started.
+:model-acmt-mx:jar (Thread[included builds,5,main]) started.
+
+> Task :model-acmt-mx:jar UP-TO-DATE
+Caching disabled for task ':model-acmt-mx:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-acmt-mx:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-acmt-mx-SRU2025-10.3.12-SNAPSHOT.jar (project :model-acmt-mx) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-acmt-types:processResources (Thread[included builds,5,main]) started.
+:model-acmt-types:processResources (Thread[included builds,5,main]) started.
+
+> Task :model-acmt-types:processResources NO-SOURCE
+Skipping task ':model-acmt-types:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-acmt-types:classes (Thread[included builds,5,main]) started.
+:model-acmt-types:classes (Thread[included builds,5,main]) started.
+
+> Task :model-acmt-types:classes UP-TO-DATE
+Skipping task ':model-acmt-types:classes' as it has no actions.
+Resolve mutations for :model-acmt-types:jar (Thread[included builds,5,main]) started.
+:model-acmt-types:jar (Thread[included builds,5,main]) started.
+
+> Task :model-acmt-types:jar UP-TO-DATE
+Caching disabled for task ':model-acmt-types:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-acmt-types:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-acmt-types-SRU2025-10.3.12-SNAPSHOT.jar (project :model-acmt-types) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-admi-mx:processResources (Thread[included builds,5,main]) started.
+:model-admi-mx:processResources (Thread[included builds,5,main]) started.
+
+> Task :model-admi-mx:processResources NO-SOURCE
+Skipping task ':model-admi-mx:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-admi-mx:classes (Thread[included builds,5,main]) started.
+:model-admi-mx:classes (Thread[included builds,5,main]) started.
+
+> Task :model-admi-mx:classes UP-TO-DATE
+Skipping task ':model-admi-mx:classes' as it has no actions.
+Resolve mutations for :model-admi-mx:jar (Thread[included builds,5,main]) started.
+:model-admi-mx:jar (Thread[included builds,5,main]) started.
+
+> Task :model-admi-mx:jar UP-TO-DATE
+Caching disabled for task ':model-admi-mx:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-admi-mx:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-admi-mx-SRU2025-10.3.12-SNAPSHOT.jar (project :model-admi-mx) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-admi-types:processResources (Thread[included builds,5,main]) started.
+:model-admi-types:processResources (Thread[included builds,5,main]) started.
+
+> Task :model-admi-types:processResources NO-SOURCE
+Skipping task ':model-admi-types:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-admi-types:classes (Thread[included builds,5,main]) started.
+:model-admi-types:classes (Thread[included builds,5,main]) started.
+
+> Task :model-admi-types:classes UP-TO-DATE
+Skipping task ':model-admi-types:classes' as it has no actions.
+Resolve mutations for :model-admi-types:jar (Thread[included builds,5,main]) started.
+:model-admi-types:jar (Thread[included builds,5,main]) started.
+
+> Task :model-admi-types:jar UP-TO-DATE
+Caching disabled for task ':model-admi-types:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-admi-types:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-admi-types-SRU2025-10.3.12-SNAPSHOT.jar (project :model-admi-types) (Thread[included builds,5,main]) started.
+Resolve mutations for :model-camt-mx:processResources (Thread[included builds,5,main]) started.
+:model-camt-mx:processResources (Thread[Execution worker,5,main]) started.
+
+> Task :model-camt-mx:processResources NO-SOURCE
+Skipping task ':model-camt-mx:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-camt-mx:classes (Thread[Execution worker,5,main]) started.
+:model-camt-mx:classes (Thread[Execution worker,5,main]) started.
+
+> Task :model-camt-mx:classes UP-TO-DATE
+Skipping task ':model-camt-mx:classes' as it has no actions.
+Resolve mutations for :model-camt-mx:jar (Thread[Execution worker,5,main]) started.
+:model-camt-mx:jar (Thread[Execution worker,5,main]) started.
+
+> Task :model-camt-mx:jar UP-TO-DATE
+Caching disabled for task ':model-camt-mx:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-camt-mx:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-camt-mx-SRU2025-10.3.12-SNAPSHOT.jar (project :model-camt-mx) (Thread[Execution worker,5,main]) started.
+Resolve mutations for :model-camt-types:processResources (Thread[Execution worker,5,main]) started.
+:model-camt-types:processResources (Thread[Execution worker,5,main]) started.
+
+> Task :model-camt-types:processResources NO-SOURCE
+Skipping task ':model-camt-types:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-camt-types:classes (Thread[Execution worker,5,main]) started.
+:model-camt-types:classes (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-camt-types:classes UP-TO-DATE
+Skipping task ':model-camt-types:classes' as it has no actions.
+Resolve mutations for :model-camt-types:jar (Thread[Execution worker Thread 5,5,main]) started.
+:model-camt-types:jar (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-camt-types:jar UP-TO-DATE
+Caching disabled for task ':model-camt-types:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-camt-types:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-camt-types-SRU2025-10.3.12-SNAPSHOT.jar (project :model-camt-types) (Thread[Execution worker Thread 5,5,main]) started.
+Resolve mutations for :model-catm-mx:processResources (Thread[Execution worker Thread 5,5,main]) started.
+:model-catm-mx:processResources (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-catm-mx:processResources NO-SOURCE
+Skipping task ':model-catm-mx:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-catm-mx:classes (Thread[Execution worker Thread 5,5,main]) started.
+:model-catm-mx:classes (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-catm-mx:classes UP-TO-DATE
+Skipping task ':model-catm-mx:classes' as it has no actions.
+Resolve mutations for :model-catm-mx:jar (Thread[Execution worker Thread 5,5,main]) started.
+:model-catm-mx:jar (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-catm-mx:jar UP-TO-DATE
+Caching disabled for task ':model-catm-mx:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-catm-mx:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-catm-mx-SRU2025-10.3.12-SNAPSHOT.jar (project :model-catm-mx) (Thread[Execution worker Thread 5,5,main]) started.
+Resolve mutations for :model-catm-types:processResources (Thread[Execution worker Thread 5,5,main]) started.
+:model-catm-types:processResources (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-catm-types:processResources NO-SOURCE
+Skipping task ':model-catm-types:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-catm-types:classes (Thread[Execution worker Thread 5,5,main]) started.
+:model-catm-types:classes (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-catm-types:classes UP-TO-DATE
+Skipping task ':model-catm-types:classes' as it has no actions.
+Resolve mutations for :model-catm-types:jar (Thread[Execution worker Thread 5,5,main]) started.
+:model-catm-types:jar (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-catm-types:jar UP-TO-DATE
+Caching disabled for task ':model-catm-types:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-catm-types:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-catm-types-SRU2025-10.3.12-SNAPSHOT.jar (project :model-catm-types) (Thread[Execution worker Thread 5,5,main]) started.
+Resolve mutations for :model-common-types:processResources (Thread[Execution worker Thread 5,5,main]) started.
+:model-common-types:processResources (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-common-types:processResources NO-SOURCE
+Skipping task ':model-common-types:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-common-types:classes (Thread[Execution worker Thread 5,5,main]) started.
+:model-common-types:classes (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-common-types:classes UP-TO-DATE
+Skipping task ':model-common-types:classes' as it has no actions.
+Resolve mutations for :model-common-types:jar (Thread[Execution worker Thread 5,5,main]) started.
+:model-common-types:jar (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-common-types:jar UP-TO-DATE
+Caching disabled for task ':model-common-types:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-common-types:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-common-types-SRU2025-10.3.12-SNAPSHOT.jar (project :model-common-types) (Thread[Execution worker Thread 5,5,main]) started.
+Resolve mutations for :model-fxtr-mx:processResources (Thread[Execution worker Thread 5,5,main]) started.
+:model-fxtr-mx:processResources (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-fxtr-mx:processResources NO-SOURCE
+Skipping task ':model-fxtr-mx:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-fxtr-mx:classes (Thread[Execution worker Thread 5,5,main]) started.
+:model-fxtr-mx:classes (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-fxtr-mx:classes UP-TO-DATE
+Skipping task ':model-fxtr-mx:classes' as it has no actions.
+Resolve mutations for :model-fxtr-mx:jar (Thread[Execution worker Thread 5,5,main]) started.
+:model-fxtr-mx:jar (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-fxtr-mx:jar UP-TO-DATE
+Caching disabled for task ':model-fxtr-mx:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-fxtr-mx:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-fxtr-mx-SRU2025-10.3.12-SNAPSHOT.jar (project :model-fxtr-mx) (Thread[Execution worker Thread 5,5,main]) started.
+Resolve mutations for :model-fxtr-types:processResources (Thread[Execution worker Thread 5,5,main]) started.
+:model-fxtr-types:processResources (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-fxtr-types:processResources NO-SOURCE
+Skipping task ':model-fxtr-types:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-fxtr-types:classes (Thread[Execution worker Thread 5,5,main]) started.
+:model-fxtr-types:classes (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-fxtr-types:classes UP-TO-DATE
+Skipping task ':model-fxtr-types:classes' as it has no actions.
+Resolve mutations for :model-fxtr-types:jar (Thread[Execution worker Thread 5,5,main]) started.
+:model-fxtr-types:jar (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-fxtr-types:jar UP-TO-DATE
+Caching disabled for task ':model-fxtr-types:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-fxtr-types:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-fxtr-types-SRU2025-10.3.12-SNAPSHOT.jar (project :model-fxtr-types) (Thread[Execution worker Thread 5,5,main]) started.
+Resolve mutations for :model-pacs-mx:processResources (Thread[Execution worker Thread 5,5,main]) started.
+:model-pacs-mx:processResources (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-pacs-mx:processResources NO-SOURCE
+Skipping task ':model-pacs-mx:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-pacs-mx:classes (Thread[Execution worker Thread 5,5,main]) started.
+:model-pacs-mx:classes (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-pacs-mx:classes UP-TO-DATE
+Skipping task ':model-pacs-mx:classes' as it has no actions.
+Resolve mutations for :model-pacs-mx:jar (Thread[Execution worker Thread 5,5,main]) started.
+:model-pacs-mx:jar (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-pacs-mx:jar UP-TO-DATE
+Caching disabled for task ':model-pacs-mx:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-pacs-mx:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-pacs-mx-SRU2025-10.3.12-SNAPSHOT.jar (project :model-pacs-mx) (Thread[Execution worker Thread 5,5,main]) started.
+Resolve mutations for :model-pacs-types:processResources (Thread[Execution worker Thread 5,5,main]) started.
+:model-pacs-types:processResources (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-pacs-types:processResources NO-SOURCE
+Skipping task ':model-pacs-types:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-pacs-types:classes (Thread[Execution worker Thread 5,5,main]) started.
+:model-pacs-types:classes (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-pacs-types:classes UP-TO-DATE
+Skipping task ':model-pacs-types:classes' as it has no actions.
+Resolve mutations for :model-pacs-types:jar (Thread[Execution worker Thread 5,5,main]) started.
+:model-pacs-types:jar (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-pacs-types:jar UP-TO-DATE
+Caching disabled for task ':model-pacs-types:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-pacs-types:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-pacs-types-SRU2025-10.3.12-SNAPSHOT.jar (project :model-pacs-types) (Thread[Execution worker Thread 5,5,main]) started.
+Resolve mutations for :model-pain-mx:processResources (Thread[Execution worker Thread 5,5,main]) started.
+:model-pain-mx:processResources (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-pain-mx:processResources NO-SOURCE
+Skipping task ':model-pain-mx:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-pain-mx:classes (Thread[Execution worker Thread 5,5,main]) started.
+:model-pain-mx:classes (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-pain-mx:classes UP-TO-DATE
+Skipping task ':model-pain-mx:classes' as it has no actions.
+Resolve mutations for :model-pain-mx:jar (Thread[Execution worker Thread 5,5,main]) started.
+:model-pain-mx:jar (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-pain-mx:jar UP-TO-DATE
+Caching disabled for task ':model-pain-mx:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-pain-mx:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-pain-mx-SRU2025-10.3.12-SNAPSHOT.jar (project :model-pain-mx) (Thread[Execution worker Thread 5,5,main]) started.
+Resolve mutations for :model-pain-types:processResources (Thread[Execution worker Thread 5,5,main]) started.
+:model-pain-types:processResources (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-pain-types:processResources NO-SOURCE
+Skipping task ':model-pain-types:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-pain-types:classes (Thread[Execution worker Thread 5,5,main]) started.
+:model-pain-types:classes (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-pain-types:classes UP-TO-DATE
+Skipping task ':model-pain-types:classes' as it has no actions.
+Resolve mutations for :model-pain-types:jar (Thread[Execution worker Thread 5,5,main]) started.
+:model-pain-types:jar (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-pain-types:jar UP-TO-DATE
+Caching disabled for task ':model-pain-types:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-pain-types:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-pain-types-SRU2025-10.3.12-SNAPSHOT.jar (project :model-pain-types) (Thread[Execution worker Thread 5,5,main]) started.
+Resolve mutations for :model-seev-mx:processResources (Thread[Execution worker Thread 5,5,main]) started.
+:model-seev-mx:processResources (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-seev-mx:processResources NO-SOURCE
+Skipping task ':model-seev-mx:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-seev-mx:classes (Thread[Execution worker Thread 5,5,main]) started.
+:model-seev-mx:classes (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-seev-mx:classes UP-TO-DATE
+Skipping task ':model-seev-mx:classes' as it has no actions.
+Resolve mutations for :model-seev-mx:jar (Thread[Execution worker Thread 5,5,main]) started.
+:model-seev-mx:jar (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-seev-mx:jar UP-TO-DATE
+Caching disabled for task ':model-seev-mx:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-seev-mx:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-seev-mx-SRU2025-10.3.12-SNAPSHOT.jar (project :model-seev-mx) (Thread[Execution worker Thread 5,5,main]) started.
+Resolve mutations for :model-seev-types:processResources (Thread[Execution worker Thread 5,5,main]) started.
+:model-seev-types:processResources (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-seev-types:processResources NO-SOURCE
+Skipping task ':model-seev-types:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-seev-types:classes (Thread[Execution worker Thread 5,5,main]) started.
+:model-seev-types:classes (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-seev-types:classes UP-TO-DATE
+Skipping task ':model-seev-types:classes' as it has no actions.
+Resolve mutations for :model-seev-types:jar (Thread[Execution worker Thread 5,5,main]) started.
+:model-seev-types:jar (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-seev-types:jar UP-TO-DATE
+Caching disabled for task ':model-seev-types:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-seev-types:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-seev-types-SRU2025-10.3.12-SNAPSHOT.jar (project :model-seev-types) (Thread[Execution worker Thread 5,5,main]) started.
+Resolve mutations for :model-sese-mx:processResources (Thread[Execution worker Thread 5,5,main]) started.
+:model-sese-mx:processResources (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :model-sese-mx:processResources NO-SOURCE
+Skipping task ':model-sese-mx:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-sese-mx:classes (Thread[Execution worker Thread 5,5,main]) started.
+:model-sese-mx:classes (Thread[Execution worker Thread 2,5,main]) started.
+
+> Task :model-sese-mx:classes UP-TO-DATE
+Skipping task ':model-sese-mx:classes' as it has no actions.
+Resolve mutations for :model-sese-mx:jar (Thread[Execution worker Thread 2,5,main]) started.
+:model-sese-mx:jar (Thread[Execution worker Thread 2,5,main]) started.
+
+> Task :model-sese-mx:jar UP-TO-DATE
+Caching disabled for task ':model-sese-mx:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-sese-mx:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-sese-mx-SRU2025-10.3.12-SNAPSHOT.jar (project :model-sese-mx) (Thread[Execution worker Thread 2,5,main]) started.
+Resolve mutations for :model-sese-types:processResources (Thread[Execution worker Thread 2,5,main]) started.
+:model-sese-types:processResources (Thread[Execution worker Thread 2,5,main]) started.
+
+> Task :model-sese-types:processResources NO-SOURCE
+Skipping task ':model-sese-types:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-sese-types:classes (Thread[Execution worker Thread 2,5,main]) started.
+:model-sese-types:classes (Thread[Execution worker Thread 2,5,main]) started.
+
+> Task :model-sese-types:classes UP-TO-DATE
+Skipping task ':model-sese-types:classes' as it has no actions.
+Resolve mutations for :model-sese-types:jar (Thread[Execution worker Thread 2,5,main]) started.
+:model-sese-types:jar (Thread[Execution worker Thread 2,5,main]) started.
+
+> Task :model-sese-types:jar UP-TO-DATE
+Caching disabled for task ':model-sese-types:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-sese-types:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-sese-types-SRU2025-10.3.12-SNAPSHOT.jar (project :model-sese-types) (Thread[Execution worker Thread 2,5,main]) started.
+Resolve mutations for :model-xsys-mx:processResources (Thread[Execution worker Thread 2,5,main]) started.
+:model-xsys-mx:processResources (Thread[Execution worker Thread 2,5,main]) started.
+
+> Task :model-xsys-mx:processResources NO-SOURCE
+Skipping task ':model-xsys-mx:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-xsys-mx:classes (Thread[Execution worker Thread 2,5,main]) started.
+:model-xsys-mx:classes (Thread[Execution worker Thread 2,5,main]) started.
+
+> Task :model-xsys-mx:classes UP-TO-DATE
+Skipping task ':model-xsys-mx:classes' as it has no actions.
+Resolve mutations for :model-xsys-mx:jar (Thread[Execution worker Thread 2,5,main]) started.
+:model-xsys-mx:jar (Thread[Execution worker Thread 2,5,main]) started.
+
+> Task :model-xsys-mx:jar UP-TO-DATE
+Caching disabled for task ':model-xsys-mx:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-xsys-mx:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-xsys-mx-SRU2025-10.3.12-SNAPSHOT.jar (project :model-xsys-mx) (Thread[Execution worker Thread 2,5,main]) started.
+Resolve mutations for :model-xsys-types:processResources (Thread[Execution worker Thread 2,5,main]) started.
+:model-xsys-types:processResources (Thread[Execution worker Thread 2,5,main]) started.
+
+> Task :model-xsys-types:processResources NO-SOURCE
+Skipping task ':model-xsys-types:processResources' as it has no source files and no previous output files.
+Resolve mutations for :model-xsys-types:classes (Thread[Execution worker Thread 2,5,main]) started.
+:model-xsys-types:classes (Thread[Execution worker Thread 2,5,main]) started.
+
+> Task :model-xsys-types:classes UP-TO-DATE
+Skipping task ':model-xsys-types:classes' as it has no actions.
+Resolve mutations for :model-xsys-types:jar (Thread[Execution worker Thread 2,5,main]) started.
+:model-xsys-types:jar (Thread[Execution worker Thread 2,5,main]) started.
+
+> Task :model-xsys-types:jar UP-TO-DATE
+Caching disabled for task ':model-xsys-types:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':model-xsys-types:jar' as it is up-to-date.
+work action resolve pw-iso20022-model-xsys-types-SRU2025-10.3.12-SNAPSHOT.jar (project :model-xsys-types) (Thread[Execution worker Thread 2,5,main]) started.
+Resolve mutations for :iso20022-core:test (Thread[Execution worker Thread 2,5,main]) started.
+:iso20022-core:test (Thread[Execution worker Thread 2,5,main]) started.
+Gradle Test Executor 18 started executing tests.
+
+> Task :iso20022-core:test
+Caching disabled for task ':iso20022-core:test' because:
+  Build cache is disabled
+Task ':iso20022-core:test' is not up-to-date because:
+  Task has failed previously.
+Starting process 'Gradle Test Executor 18'. Working directory: /Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/iso20022-core Command: /opt/homebrew/Cellar/openjdk@11/11.0.32.1/libexec/openjdk.jdk/Contents/Home/bin/java -Dorg.gradle.internal.worker.tmpdir=/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/iso20022-core/build/tmp/test/work @/Users/GaneshvivekMannam/.gradle/.tmp/gradle-worker-classpath15347110454000217699txt -Xmx512m -Dfile.encoding=UTF-8 -Duser.country=IN -Duser.language=en -Duser.variant -ea worker.org.gradle.process.internal.worker.GradleWorkerMain 'Gradle Test Executor 18'
+Successfully started process 'Gradle Test Executor 18'
+
+SpELSemanticValidationTest > testValidSemanticPass() STANDARD_ERROR
+    Oct 04, 2026 8:40:03 PM com.prowidesoftware.deprecation.DeprecationUtils phase2
+    WARNING: The API SafeXmlUtils#schemaFactory is deprecated. use SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI) instead
+
+SpELSemanticValidationTest > testValidSemanticPass() STANDARD_OUT
+    DEBUG FAILURE: Rule Evaluation Error: SpEL Evaluation failed or blocked: EL1008E: Property or field 'fiToFIPmtStsRpt' cannot be found on object of type 'com.prowidesoftware.swift.model.mx.MxPacs00200112' - maybe not public or not valid?
+
+SpELSemanticValidationTest > testValidSemanticPass() FAILED
+    org.opentest4j.AssertionFailedError: Semantic rule should pass ==> expected: <false> but was: <true>
+        at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+        at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+        at app//org.junit.jupiter.api.AssertFalse.failNotFalse(AssertFalse.java:63)
+        at app//org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:36)
+        at app//org.junit.jupiter.api.Assertions.assertFalse(Assertions.java:239)
+        at app//com.prowidesoftware.swift.model.mx.SpELSemanticValidationTest.testValidSemanticPass(SpELSemanticValidationTest.java:71)
+
+SpELSemanticValidationTest > testXsdPassSemanticFail() FAILED
+    org.opentest4j.AssertionFailedError: expected: <FATAL> but was: <ERROR>
+        at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+        at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+        at app//org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+        at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+        at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+        at app//org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+        at app//com.prowidesoftware.swift.model.mx.SpELSemanticValidationTest.testXsdPassSemanticFail(SpELSemanticValidationTest.java:84)
+
+SpELSemanticValidationTest > testEmptyCollectionSafety() FAILED
+    org.opentest4j.AssertionFailedError: Should safely handle empty collection ==> expected: <false> but was: <true>
+        at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+        at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+        at app//org.junit.jupiter.api.AssertFalse.failNotFalse(AssertFalse.java:63)
+        at app//org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:36)
+        at app//org.junit.jupiter.api.Assertions.assertFalse(Assertions.java:239)
+        at app//com.prowidesoftware.swift.model.mx.SpELSemanticValidationTest.testEmptyCollectionSafety(SpELSemanticValidationTest.java:103)
+
+SpELSemanticValidationTest > testMissingOptionalFieldSafety() FAILED
+    org.opentest4j.AssertionFailedError: Should safely handle missing block without NPE ==> expected: <false> but was: <true>
+        at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+        at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+        at app//org.junit.jupiter.api.AssertFalse.failNotFalse(AssertFalse.java:63)
+        at app//org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:36)
+        at app//org.junit.jupiter.api.Assertions.assertFalse(Assertions.java:239)
+        at app//com.prowidesoftware.swift.model.mx.SpELSemanticValidationTest.testMissingOptionalFieldSafety(SpELSemanticValidationTest.java:94)
+
+Gradle Test Executor 18 finished executing tests.
+
+> Task :iso20022-core:test FAILED
+
+7 tests completed, 4 failed
+Finished generating test XML results (0.002 secs) into: /Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/iso20022-core/build/test-results/test
+Generating HTML test report...
+Finished generating test html results (0.005 secs) into: /Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/iso20022-core/build/reports/tests/test
+Resolve mutations for :spotlessInternalRegisterDependencies (Thread[Execution worker Thread 2,5,main]) started.
+:spotlessInternalRegisterDependencies (Thread[Execution worker Thread 2,5,main]) started.
+
+> Task :spotlessInternalRegisterDependencies UP-TO-DATE
+Caching disabled for task ':spotlessInternalRegisterDependencies' because:
+  Build cache is disabled
+  This task coordinates the setup and execution of other tasks, and should not be cached
+Skipping task ':spotlessInternalRegisterDependencies' as it is up-to-date.
+Resolve mutations for :iso20022-core:spotlessJava (Thread[Execution worker Thread 2,5,main]) started.
+:iso20022-core:spotlessJava (Thread[Execution worker Thread 2,5,main]) started.
+
+> Task :iso20022-core:spotlessJava
+Caching disabled for task ':iso20022-core:spotlessJava' because:
+  Build cache is disabled
+Task ':iso20022-core:spotlessJava' is not up-to-date because:
+  Input property 'target' file /Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/iso20022-core/src/test/java/com/prowidesoftware/swift/model/mx/SpELSemanticValidationTest.java has changed.
+Resolve mutations for :iso20022-core:spotlessJavaCheck (Thread[Execution worker Thread 2,5,main]) started.
+:iso20022-core:spotlessJavaCheck (Thread[Execution worker Thread 2,5,main]) started.
+
+> Task :iso20022-core:spotlessJavaCheck FAILED
+Caching disabled for task ':iso20022-core:spotlessJavaCheck' because:
+  Build cache is disabled
+Task ':iso20022-core:spotlessJavaCheck' is not up-to-date because:
+  Task has not declared any outputs despite executing actions.
+
+[Incubating] Problems report is available at: file:///Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/build/reports/problems/problems-report.html
+
+FAILURE: Build completed with 2 failures.
+
+1: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':iso20022-core:test'.
+> There were failing tests. See the report at: file:///Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022/iso20022-core/build/reports/tests/test/index.html
+
+* Try:
+> Run with --scan to get full insights.
+==============================================================================
+
+2: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':iso20022-core:spotlessJavaCheck'.
+> The following files had format violations:
+      src/test/java/com/prowidesoftware/swift/model/mx/TestSpel.java
+          @@ -1,28 +1,44 @@
+           package·scratch;
+          +
+          +import·java.util.*;
+           import·org.springframework.expression.ExpressionParser;
+           import·org.springframework.expression.spel.standard.SpelExpressionParser;
+           import·org.springframework.expression.spel.support.SimpleEvaluationContext;
+          -import·java.util.*;
+           
+           public·class·TestSpel·{
+           ····public·static·class·Tx·{
+           ········public·String·txSts;
+           ········public·List<String>·stsRsnInf;
+          -········public·String·getTxSts()·{·return·txSts;·}
+          -········public·List<String>·getStsRsnInf()·{·return·stsRsnInf;·}
+          +
+          +········public·String·getTxSts()·{
+          +············return·txSts;
+          +········}
+          +
+          +········public·List<String>·getStsRsnInf()·{
+          +············return·stsRsnInf;
+          +········}
+           ····}
+          +
+           ····public·static·class·Rpt·{
+           ········public·List<Tx>·txInfAndSts·=·new·ArrayList<>();
+          -········public·List<Tx>·getTxInfAndSts()·{·return·txInfAndSts;·}
+          +
+          +········public·List<Tx>·getTxInfAndSts()·{
+          +············return·txInfAndSts;
+          +········}
+           ····}
+          +
+           ····public·static·class·Model·{
+           ········public·Rpt·fiToFIPmtStsRpt·=·new·Rpt();
+          -········public·Rpt·getFIToFIPmtStsRpt()·{·return·fiToFIPmtStsRpt;·}
+          +
+          +········public·Rpt·getFIToFIPmtStsRpt()·{
+          +············return·fiToFIPmtStsRpt;
+          +········}
+           ····}
+           
+           ····public·static·void·main(String[]·args)·{
+           ········ExpressionParser·parser·=·new·SpelExpressionParser();
+          -········SimpleEvaluationContext·context·=·SimpleEvaluationContext.forReadOnlyDataBinding().build();
+          +········SimpleEvaluationContext·context·=
+          +················SimpleEvaluationContext.forReadOnlyDataBinding().build();
+           
+      ... (12 more lines that didn't fit)
+  Run './gradlew :iso20022-core:spotlessApply' to fix these violations.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+==============================================================================
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.14.5/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 13s
+51 actionable tasks: 4 executed, 47 up-to-date
+Watched directory hierarchies: [/Users/GaneshvivekMannam/Desktop/parsing/prowide-iso20022]

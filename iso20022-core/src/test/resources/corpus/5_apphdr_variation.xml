@@ -1,0 +1,21 @@
+<Envelope>
+    <AppHdr xmlns="urn:iso:std:iso:20022:tech:xsd:head.001.001.02">
+        <Fr><FIId><FinInstnId><BICFI>BBBBUS33</BICFI></FinInstnId></FIId></Fr>
+        <To><FIId><FinInstnId><BICFI>AAAAUS33</BICFI></FinInstnId></FIId></To>
+        <BizMsgIdr>MSG123</BizMsgIdr>
+        <MsgDefIdr>pacs.002.001.12</MsgDefIdr>
+        <CreDt>2023-10-01T12:00:00Z</CreDt>
+    </AppHdr>
+    <Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.12">
+        <FIToFIPmtStsRpt>
+            <GrpHdr>
+                <MsgId>MSGID123</MsgId>
+                <CreDtTm>2023-10-01T12:00:00Z</CreDtTm>
+            </GrpHdr>
+            <TxInfAndSts>
+                <OrgnlInstrId>INSTR123</OrgnlInstrId>
+                <TxSts>ACCP</TxSts>
+            </TxInfAndSts>
+        </FIToFIPmtStsRpt>
+    </Document>
+</Envelope>

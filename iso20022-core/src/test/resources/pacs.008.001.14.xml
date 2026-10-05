@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.14">
+    <FIToFICstmrCdtTrf>
+        <GrpHdr>
+            <MsgId>MSG-PACS008-14-001</MsgId>
+            <CreDtTm>2024-01-15T10:00:00</CreDtTm>
+            <NbOfTxs>1</NbOfTxs>
+            <SttlmInf>
+                <SttlmMtd>INDA</SttlmMtd>
+            </SttlmInf>
+        </GrpHdr>
+        <CdtTrfTxInf>
+            <PmtId>
+                <InstrId>INSTR-001</InstrId>
+                <EndToEndId>E2E-001</EndToEndId>
+                <TxId>TXN-001</TxId>
+            </PmtId>
+            <IntrBkSttlmAmt Ccy="USD">10000.00</IntrBkSttlmAmt>
+            <ChrgBr>SHAR</ChrgBr>
+            <Dbtr>
+                <Nm>John Doe</Nm>
+            </Dbtr>
+            <DbtrAgt>
+                <FinInstnId>
+                    <BICFI>BOFAUS3NXXX</BICFI>
+                </FinInstnId>
+            </DbtrAgt>
+            <CdtrAgt>
+                <FinInstnId>
+                    <BICFI>CHASUS33XXX</BICFI>
+                </FinInstnId>
+            </CdtrAgt>
+            <Cdtr>
+                <Nm>Jane Smith</Nm>
+            </Cdtr>
+        </CdtTrfTxInf>
+    </FIToFICstmrCdtTrf>
+</Document>

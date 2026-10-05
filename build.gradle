@@ -159,6 +159,7 @@ project(':iso20022-core') {
 
 		compileOnly "jakarta.persistence:jakarta.persistence-api:${jakartaPersistenceVersion}"
 		compileOnly 'jakarta.validation:jakarta.validation-api:3.1.1'
+		implementation 'org.springframework:spring-expression:5.3.39'
 
 		testImplementation "jakarta.persistence:jakarta.persistence-api:${jakartaPersistenceVersion}"
 		testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
@@ -229,6 +230,54 @@ project(':iso20022-core') {
 	test.finalizedBy(spotlessCheck)
 }
 
+// Runs one existing XML fixture through the parser and prints the detected Java message to the terminal.
+tasks.register('runOneMessageParser', JavaExec) {
+	group = 'application'
+	description = 'Parses the pacs.008.001.07 test fixture and prints its detected message type.'
+	dependsOn project(':iso20022-core').tasks.named('testClasses')
+	classpath = project(':iso20022-core').sourceSets.test.runtimeClasspath
+	mainClass = 'com.prowidesoftware.swift.model.mx.OneMessageParser'
+}
+
+tasks.register('runValidatorPoc', JavaExec) {
+	group = 'application'
+	description = 'Runs the POC validator'
+	dependsOn project(':iso20022-core').tasks.named('testClasses')
+	classpath = project(':iso20022-core').sourceSets.test.runtimeClasspath
+	mainClass = 'com.prowidesoftware.swift.model.mx.ValidatorPoc'
+}
+
+tasks.register('generatePacs010', JavaExec) {
+	group = 'application'
+	description = 'Generates pacs.010 sample'
+	dependsOn project(':iso20022-core').tasks.named('testClasses')
+	classpath = project(':iso20022-core').sourceSets.test.runtimeClasspath
+	mainClass = 'com.prowidesoftware.swift.model.mx.GeneratePacs010'
+}
+
+tasks.register('testISOValidator', JavaExec) {
+	group = 'application'
+	description = 'Test ISOValidator'
+	dependsOn project(':iso20022-core').tasks.named('testClasses')
+	classpath = project(':iso20022-core').sourceSets.test.runtimeClasspath
+	mainClass = 'com.prowidesoftware.swift.model.mx.TestISOValidator'
+}
+
+tasks.register('generatePacs029', JavaExec) {
+	group = 'application'
+	description = 'Generates pacs.029 sample'
+	dependsOn project(':iso20022-core').tasks.named('testClasses')
+	classpath = project(':iso20022-core').sourceSets.test.runtimeClasspath
+	mainClass = 'com.prowidesoftware.swift.model.mx.GeneratePacs029'
+}
+
+tasks.register('testPacs029Validation', JavaExec) {
+	group = 'application'
+	description = 'Test pacs.029 validation end to end'
+	dependsOn project(':iso20022-core').tasks.named('testClasses')
+	classpath = project(':iso20022-core').sourceSets.test.runtimeClasspath
+	mainClass = 'com.prowidesoftware.swift.model.mx.TestPacs029Validation'
+}
 jar {
 	dependsOn subprojects.jar
 	archivesBaseName = 'pw-iso20022'
@@ -577,4 +626,18 @@ quality {
 	pmd = false
 	spotbugsEffort = 'min'
 	spotbugsMaxRank = 1
+}
+
+task testPacs002Validation(type: JavaExec) {
+    group = 'Verification'
+    description = 'Runs the pacs.002 XSD integration test'
+    classpath = project(':iso20022-core').sourceSets.test.runtimeClasspath
+    mainClass = 'com.prowidesoftware.swift.model.mx.TestPacs002Validation'
+}
+
+task testISOParserIntegration(type: JavaExec) {
+    group = 'Verification'
+    description = 'Runs the ISOParser integration test'
+    classpath = project(':iso20022-core').sourceSets.test.runtimeClasspath
+    mainClass = 'com.prowidesoftware.swift.model.mx.TestISOParserIntegration'
 }

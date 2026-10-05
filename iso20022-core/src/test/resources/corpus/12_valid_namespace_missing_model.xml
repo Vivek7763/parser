@@ -1,0 +1,19 @@
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.14">
+    <FIToFICstmrCdtTrf>
+        <GrpHdr>
+            <MsgId>M1</MsgId>
+            <CreDtTm>2023-10-01T12:00:00Z</CreDtTm>
+            <NbOfTxs>1</NbOfTxs>
+            <SttlmInf><SttlmMtd>CLRG</SttlmMtd></SttlmInf>
+        </GrpHdr>
+        <CdtTrfTxInf>
+            <PmtId><EndToEndId>E1</EndToEndId></PmtId>
+            <IntrBkSttlmAmt Ccy="USD">100.00</IntrBkSttlmAmt>
+            <ChrgBr>DEBT</ChrgBr>
+            <Dbtr><Nm>D</Nm></Dbtr>
+            <DbtrAgt><FinInstnId><BICFI>BOFAUS3N</BICFI></FinInstnId></DbtrAgt>
+            <CdtrAgt><FinInstnId><BICFI>CHASUS33</BICFI></FinInstnId></CdtrAgt>
+            <Cdtr><Nm>C</Nm></Cdtr>
+        </CdtTrfTxInf>
+    </FIToFICstmrCdtTrf>
+</Document>

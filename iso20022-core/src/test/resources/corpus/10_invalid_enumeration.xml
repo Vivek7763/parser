@@ -1,0 +1,13 @@
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.12">
+    <FIToFIPmtStsRpt>
+        <GrpHdr>
+            <MsgId>MSGID123</MsgId>
+            <CreDtTm>2023-10-01T12:00:00Z</CreDtTm>
+        </GrpHdr>
+        <TxInfAndSts>
+            <OrgnlInstrId>INSTR123</OrgnlInstrId>
+            <!-- INVALID_STS is not in the ExternalPaymentTransactionStatus1Code enum -->
+            <TxSts>INVALID_STS</TxSts>
+        </TxInfAndSts>
+    </FIToFIPmtStsRpt>
+</Document>

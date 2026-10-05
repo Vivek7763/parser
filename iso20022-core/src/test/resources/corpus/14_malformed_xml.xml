@@ -1,0 +1,12 @@
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.12">
+    <FIToFIPmtStsRpt>
+        <GrpHdr>
+            <MsgId>MSGID123</MsgId>
+            <CreDtTm>2023-10-01T12:00:00Z</CreDtTm>
+        <!-- Missing closing GrpHdr tag -->
+        <TxInfAndSts>
+            <OrgnlInstrId>INSTR123</OrgnlInstrId>
+            <TxSts>ACCP</TxSts>
+        </TxInfAndSts>
+    </FIToFIPmtStsRpt>
+</Document>

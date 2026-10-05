@@ -71,6 +71,9 @@ public class NamespaceReader {
     /**
      * Implementation of {@link #findNamespaceForLocalName(String, String)} streaming from a reader, so lenient
      * payload views can be scanned without materializing a normalized copy of the XML.
+     *
+     * <p>Correctly tracks and resolves inherited namespaces declared on ancestor elements as well as namespaces
+     * declared directly on the target element.
      */
     static Optional<String> findNamespaceForLocalName(final java.io.Reader source, final String localName) {
         final XMLInputFactory xif = SafeXmlUtils.inputFactory();
@@ -114,6 +117,11 @@ public class NamespaceReader {
                     return reader.getNamespaceURI(nsIndex);
                 }
             }
+        }
+        // In-scope namespace of the element (handles inherited default namespace or inherited prefixed namespace)
+        String elemNs = StringUtils.trimToNull(reader.getNamespaceURI());
+        if (elemNs != null) {
+            return elemNs;
         }
         return null;
     }

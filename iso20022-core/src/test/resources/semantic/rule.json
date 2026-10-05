@@ -1,0 +1,9 @@
+{
+  "ruleId": "CBPR_PACS002_01",
+  "messageType": "pacs.002",
+  "versions": ["12"],
+  "severity": "FATAL",
+  "errorPath": "FIToFIPmtStsRpt/TxInfAndSts/StsRsnInf",
+  "message": "Status Reason Information is mandatory when Transaction Status is RJCT.",
+  "expression": "FIToFIPmtStsRpt == null ? true : FIToFIPmtStsRpt.txInfAndSts.?[txSts == 'RJCT' and stsRsnInf.empty].empty"
+}

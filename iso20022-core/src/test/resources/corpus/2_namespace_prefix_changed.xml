@@ -1,0 +1,12 @@
+<p:Document xmlns:p="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.12">
+    <p:FIToFIPmtStsRpt>
+        <p:GrpHdr>
+            <p:MsgId>MSGID123</p:MsgId>
+            <p:CreDtTm>2023-10-01T12:00:00Z</p:CreDtTm>
+        </p:GrpHdr>
+        <p:TxInfAndSts>
+            <p:OrgnlInstrId>INSTR123</p:OrgnlInstrId>
+            <p:TxSts>ACCP</p:TxSts>
+        </p:TxInfAndSts>
+    </p:FIToFIPmtStsRpt>
+</p:Document>

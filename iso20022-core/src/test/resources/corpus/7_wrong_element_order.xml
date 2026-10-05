@@ -1,0 +1,13 @@
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.12">
+    <FIToFIPmtStsRpt>
+        <GrpHdr>
+            <!-- CreDtTm before MsgId is structurally invalid according to XSD sequence -->
+            <CreDtTm>2023-10-01T12:00:00Z</CreDtTm>
+            <MsgId>MSGID123</MsgId>
+        </GrpHdr>
+        <TxInfAndSts>
+            <OrgnlInstrId>INSTR123</OrgnlInstrId>
+            <TxSts>ACCP</TxSts>
+        </TxInfAndSts>
+    </FIToFIPmtStsRpt>
+</Document>
