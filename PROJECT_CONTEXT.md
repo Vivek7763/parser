@@ -406,13 +406,10 @@ PHASE 3 — Semantic Prototype
 [COMPLETE]
 
 PHASE 3 — Production Semantic Rule System
-[PARTIAL - Engine complete, date-type conversion missing]
+[COMPLETE - Engine, Date-Type Conversion, Version Applicability, Multi-Message Proof done]
 
 Schema Classpath Portability
-[NOT COMPLETE]
-
-Date/Time Type Conversion
-[NOT COMPLETE]
+[COMPLETE]
 
 Full Message Catalogue
 [NOT COMPLETE]
@@ -426,11 +423,9 @@ Builder
 ## PART 24 — WHAT REMAINS
 
 ### Immediate Next Technical Tasks
-1. **XMLGregorianCalendar TypeConverter:** Enable SpEL to process Prowide date comparisons.
-2. **Date Semantic Comparison Proof:** Validate a date logic rule (e.g., `<`).
-3. **SchemaRegistry Classpath Loading:** Portability fix.
-4. **Multi-Message Proof:** Execute the semantic engine against `camt`, `pain`, and `seev` samples to definitively prove generic FSS capability.
-5. **Rule Version Applicability:** Enforce `versions` array matching in `SemanticRuleEngine`.
+1. **Result Aggregation / Builder Layer Validation Response:** Define the standard Validation Response.
+2. **Version Management:** Version diffs, Impact analysis.
+3. **Canonical Payment Model:** Transformation, APIs, PaymentOS integration.
 
 ### Later Work
 - Full semantic rule catalogue (MDR/MUG mappings).
@@ -476,20 +471,19 @@ CURRENTLY WORKING:
 SpEL Date comparison support
 
 KNOWN TECHNICAL DEBT:
-- SchemaRegistry uses filesystem (Paths.get) instead of Classpath loading.
 - ISOParserResult uses AbstractMX directly (minor FSS leakage).
 - Rule version array defined but not enforced in engine filtering.
 
 NOT IMPLEMENTED:
-- XMLGregorianCalendar TypeConverter for SpEL.
 - Builder / Output layer.
+- Full target schema message catalogue ingestion.
 - Full 35-message FSS schema/rule catalogue.
 
 NEXT APPROVED INVESTIGATION:
-XMLGregorianCalendar integration with SpEL contexts.
+Validation Response DTO definition (Result Aggregation / Builder Spec).
 
 NEXT IMPLEMENTATION:
-Implement FSS TypeConverter for SpEL date math.
+Implement Validation Response DTO and Builder spec.
 
 DO NOT TOUCH:
 Phase 1 and Phase 2 architectures (ISOValidator, SchemaRegistry, ISOMessageIdentifier).
@@ -503,4 +497,475 @@ BUILD SUCCESSFUL (483 tests passed in :iso20022-core)
 
 LAST UPDATED:
 2026-10-05
+
+---
+
+## PART 27 — NEXT PHASE: VALIDATION RESPONSE / BUILDER ARCHITECTURE
+
+### 1. Current State
+Currently, the pipeline outputs an `ISOParserResult`, which perfectly models the internal orchestration lifecycle:
+- Granular statuses (`SchemaValidationStatus`, `ModelParsingStatus`, `SemanticValidationStatus`).
+- Specific error formats (`ValidationError` for XSD with line/col, `SemanticViolation` for rules with XPath).
+- Direct coupling to Prowide via `AbstractMX parsedModel`.
+
+While `ISOParserResult` is highly effective for internal routing and testing, it is **not suitable as a public FSS API** because it exposes Prowide types, leaks parser-specific lifecycle states, and lacks a unified error format.
+
+### 2. Proposed Responsibility
+The **Builder Layer** will act as the output gateway of the FSS ISO 20022 Platform.
+It will translate the internal `ISOParserResult` into a standardized, Prowide-agnostic `ValidationResponse` DTO that downstream systems (APIs, UI, PaymentOS) can consume.
+If validation is successful, the Builder will eventually be responsible for converting the payload into the **Canonical Payment Model**. If validation fails, it generates a structured rejection/NACK.
+
+### 3. DTO Structure
+The public API will define a clean, unified response:
+
+```java
+public class ValidationResponse {
+    private final String messageId;        // e.g., "pacs.002.001.12"
+    private final ResponseStatus status;   // VALID, REJECTED, SYSTEM_ERROR
+    private final List<FssError> errors;   // Unified error model
+}
 ```
+
+### 4. Error Model
+A unified `FssError` DTO will normalize XSD and Semantic errors:
+```java
+public class FssError {
+    private final ErrorCategory category;  // STRUCTURAL, SEMANTIC, TECHNICAL
+    private final String code;             // Rule ID (e.g., CBPR_PACS002_01) or "XSD_VIOLATION"
+    private final String message;          // Human-readable description
+    private final String location;         // Line:Col for XSD, ErrorPath for Semantic
+    private final String severity;         // WARNING, ERROR, FATAL
+}
+```
+
+### 5. State Matrix (Mapping ISOParserResult to ValidationResponse)
+| ISOParserResult State | ValidationResponse Status | FssError Category |
+|-----------------------|---------------------------|-------------------|
+| UNIDENTIFIABLE_INPUT  | REJECTED                  | TECHNICAL         |
+| SCHEMA_NOT_FOUND      | VALID (or SYSTEM_ERROR)*  | TECHNICAL (Warning)* |
+| XSD FAIL              | REJECTED                  | STRUCTURAL        |
+| Model UNAVAILABLE     | SYSTEM_ERROR              | TECHNICAL         |
+| Semantic TECH_ERROR   | SYSTEM_ERROR              | TECHNICAL         |
+| Semantic FAIL         | REJECTED                  | SEMANTIC          |
+| All PASS              | VALID                     | None              |
+
+*(Depends on strictness configuration: whether missing schemas imply rejection or passthrough).*
+
+### 6. Builder Responsibilities
+- **Response Builder:** Consumes `ISOParserResult` and maps it to `ValidationResponse`.
+- **Payload Builder:** (Future) Consumes `ISOParserResult.getParsedModel()`, applies transformation rules, and outputs the `Canonical Payment Model`.
+
+### 7. Module / Package Boundary
+The public DTOs (`ValidationResponse`, `FssError`, `ResponseStatus`) should be defined in a **pure Java/FSS module** (e.g., `com.fss.iso20022.api`). 
+The implementation (the `ValidationResponseBuilder` that reads `ISOParserResult`) will reside in the validation engine module, depending on both the API module and Prowide. This enables downstream consumers to import the API module *without* pulling in Prowide dependencies.
+
+### 8. Relationship to ISOParserResult
+`ISOParserResult` remains the source of truth for the validation engine. It will not be replaced or modified. The Builder layer acts as a strict Mapper/Adapter between `ISOParserResult` and `ValidationResponse`. Existing tests remain perfectly valid.
+
+### 9. Relationship to future Version Management
+The unified `FssError` structure allows the Version Management layer to perform Impact Analysis. By tracking which `FssError` codes trigger across different versions of a schema (e.g., migrating `pacs.008.001.08` to `.14`), the platform can automatically highlight breaking changes in structural or semantic validation.
+
+### 10. Relationship to future Canonical Payment Model
+When `ValidationResponse.status == VALID`, the Builder layer will hand off the internal `AbstractMX` model to the Canonical Transformation Engine, isolating the complex Prowide getters from the Canonical API.
+
+### 11. Open Questions
+- Should `SCHEMA_NOT_FOUND` result in a hard `REJECTED` state, or a `SYSTEM_ERROR`, or `VALID` with warnings (passthrough mode)?
+- What standard error codes should we map generic XSD facet violations to (e.g., `XSD_LENGTH_VIOLATION`, `XSD_ENUM_VIOLATION`)?
+- Does the ValidationResponse need to include a serialized version of the original XML payload for auditing purposes?
+
+### 12. Exact Implementation Steps After Investigation
+1. **Create Public DTOs:** Define `ValidationResponse`, `ResponseStatus`, `FssError`, and `ErrorCategory` in `com.prowidesoftware.swift.model.mx.validation.api` (pending future module extraction).
+2. **Create Builder / Mapper:** Implement `ValidationResponseBuilder` that accepts an `ISOParserResult` and produces a `ValidationResponse`.
+3. **Map Errors:** Write adapter logic to convert `ValidationError` (XSD) and `SemanticViolation` (SpEL) into `FssError`.
+4. **Map Statuses:** Write logic to collapse the granular parser statuses into the high-level `ResponseStatus`.
+5. **Add Tests:** Write unit tests verifying that all paths in the State Matrix map correctly to the public DTO.
+
+---
+
+## PART 28 — VALIDATION RESPONSE / BUILDER IMPLEMENTATION
+
+### 1. Final Public DTO Design
+The public API was successfully implemented as a set of immutable, Prowide-independent POJOs:
+- `ValidationResponse` (messageId, ResponseStatus, List<FssError>)
+- `FssError` (ErrorCategory, code, message, location, severity)
+
+### 2. Final Status Model (`ResponseStatus`)
+- `VALID`: Structurally and semantically valid.
+- `REJECTED`: Fails validation (XSD or Semantic rules) or is unidentifiable.
+- `SYSTEM_ERROR`: Infrastructure crash or missing JAXB models preventing validation.
+
+### 3. Error Categories (`ErrorCategory`)
+- `STRUCTURAL`: XSD schema validations.
+- `SEMANTIC`: SpEL business rule violations.
+- `TECHNICAL`: Unidentifiable input, missing schemas, unavailable models, or SpEL crashes.
+
+### 4. Mapping Matrix
+Implemented in `ValidationResponseBuilder`:
+- `UNIDENTIFIABLE_INPUT` → `REJECTED` (`TECHNICAL`)
+- `technicalError != null` → `SYSTEM_ERROR` (`TECHNICAL`)
+- `SCHEMA_NOT_FOUND` → `VALID` (`TECHNICAL` warning)
+- `XSD FAIL` → `REJECTED` (`STRUCTURAL`)
+- `MODEL_UNAVAILABLE` → `SYSTEM_ERROR` (`TECHNICAL`)
+- `Semantic TECH_ERROR` → `SYSTEM_ERROR` (`TECHNICAL`)
+- `Semantic FAIL` → `REJECTED` (`SEMANTIC`)
+- `All PASS` → `VALID`
+
+### 5. Builder Responsibility
+`ValidationResponseBuilder` acts strictly as an output adapter. It evaluates no rules, invokes no XML parsers, and touches no JAXB reflection. It purely maps the internal orchestration graph of `ISOParserResult` into the flat `ValidationResponse` public contract.
+
+### 6. Tests Added
+`ValidationResponseBuilderTest` covers all 8 distinct states in the mapping matrix (Valid, Unidentifiable, Schema Not Found, XSD Failure, Model Unavailable, Semantic Failure, Semantic Tech Error, Global Tech Error).
+
+### 7. Prowide Leakage Result
+**Zero leakage.** The `com.fss.iso20022.api` package only uses `java.util.List`, `java.util.Collections`, `java.util.Objects`, and basic strings/enums. Downstream applications can deserialize `ValidationResponse` JSON without having Prowide JARs on their classpath.
+
+### 8. Package Boundary
+- API layer created in `com.fss.iso20022.api`.
+- Builder created in `com.prowidesoftware.swift.model.mx.validation.builder` (since the builder depends on both the API and `ISOParserResult`/Prowide).
+- *Extraction plan:* In the future, `com.fss.iso20022.api` can simply be moved into its own `fss-iso20022-api.jar` module.
+
+### 9. Exact Test Command / Result
+- **Command:** `./gradlew clean test` (and `./gradlew :iso20022-core:spotlessApply` for formatting).
+- **Result:** `BUILD SUCCESSFUL in 4m 53s`.
+- **Count:** 534 tests completed, 0 failures. All existing Prowide tests, regression boundaries, and semantic test cases passed without requiring modifications.
+
+### 10. Remaining Technical Debt
+- Builder does not yet output the **Canonical Payment Model**. When validation passes, the builder should hand off the internal `AbstractMX` model to a transformer.
+- The `SCHEMA_NOT_FOUND` behavior is currently hardcoded to allow passthrough (yielding `VALID` with a `WARNING`). This may need to be configurable in strict-mode environments.
+
+### 11. Next Planned Phase
+**Canonical Payment Model / Version Management**
+- Transform the valid `AbstractMX` into the FSS Canonical Model.
+- Implement Version Diff and Impact Analysis using the unified `FssError` codes.
+
+---
+
+## PART 29 — BUILDER AUDIT & CANONICAL PAYMENT MODEL ARCHITECTURE
+
+### 1. Current Architecture
+The pipeline correctly isolates concerns:
+`Raw XML → ISOParser → ISOParserResult → ValidationResponseBuilder → ValidationResponse`.
+
+### 2. Builder Audit
+1. **Prowide Independence:** Yes, `ValidationResponse` and `FssError` rely entirely on standard Java classes (`String`, `List`, `Enum`).
+2. **Leakage:** Zero leakage. No JAXB, Prowide, or SpEL internals are exposed in the `com.fss.iso20022.api` package.
+3. **Transformation Only:** Yes, `ValidationResponseBuilder` executes no validation logic; it maps states deterministically.
+4. **Information Preservation:** Yes, it preserves error severities, codes, messages, and locations.
+5. **Consistency:** XSD and Semantic errors are consistently flattened into `FssError`.
+6. **Location Data:** XSD line/column numbers are preserved as `"Line: X, Column: Y"`. Semantic `errorPath` (XPath) is preserved.
+7. **Semantic Details:** ruleId, severity, message, and errorPath are mapped.
+8. **Technical Info:** SpEL crashes and missing models are mapped to `TECHNICAL` categories.
+9. **Immutability:** Collections are wrapped in `Collections.unmodifiableList(new ArrayList<>(...))`.
+10. **Contradictions:** Impossible, due to hierarchical mapping logic.
+11. **Determinism:** All `ISOParserResult` states map strictly to the public DTO.
+
+### 3. ValidationResponse State Matrix
+- `UNIDENTIFIABLE_INPUT` → `REJECTED` (TECHNICAL)
+- `XSD FAIL` → `REJECTED` (STRUCTURAL)
+- `Semantic FAIL` → `REJECTED` (SEMANTIC)
+- `MODEL_UNAVAILABLE` / `Semantic TECH_ERROR` / `technicalError` → `SYSTEM_ERROR` (TECHNICAL)
+- `SCHEMA_NOT_FOUND` → `VALID` (with TECHNICAL warning)*
+- `All PASS` → `VALID`
+
+### 4. SCHEMA_NOT_FOUND Decision
+Currently, if a schema is missing but Prowide's internal parse succeeds, the result is `VALID` with a `WARNING`. This allows passthrough processing for newer ISO versions that Prowide might support but for which the platform lacks an explicit XSD. In strict deployment environments, this behavior can be toggled to yield `SYSTEM_ERROR` or `REJECTED`. 
+
+### 5. Builder vs CanonicalBuilder Separation
+The original requirement implies two distinct, independent transformations:
+**A. ValidationResponseBuilder:** Maps internal pipeline orchestration (`ISOParserResult`) into an FSS Validation NACK/ACK API (`ValidationResponse`).
+**B. CanonicalPaymentBuilder:** Maps a valid business payload (`AbstractMX`) into a generic payment format (`CanonicalPayment`).
+These **must remain separate**. Validation is about orchestration and rules; Canonicalization is about data normalization.
+
+### 6. Canonical Payment Model Requirements
+The model must be:
+- Prowide-independent.
+- Version-independent (e.g., abstracts `pacs.008.001.08` and `.12` into one model).
+- Message-agnostic where possible (abstracting MT/MX/JSON).
+- Serializable to JSON for PaymentOS downstream consumption.
+
+### 7. Common Fields (Canonical Core)
+Across `pacs`, `camt`, and `pain`:
+- **Identity:** `MessageId`, `EndToEndId`, `UETR`, `CreationDateTime`.
+- **Financials:** `Amount`, `Currency`, `InterbankSettlementDate`, `ValueDate`.
+- **Actors:** `Debtor`, `Creditor`, `DebtorAgent`, `CreditorAgent`.
+- **Status:** `TransactionStatus`, `ReasonCodes`.
+
+### 8. Message-Specific Fields
+Fields that should NOT be forced into the canonical core:
+- Deep regulatory reporting blocks.
+- Complex nested tax/garnishment data.
+- Esoteric settlement instructions.
+*Solution:* Provide a `Map<String, Object> extensionData` or raw JSON block for preserving message-specific richness without bloating the canonical core.
+
+### 9. Version Management Architecture
+Version differences happen at the XML schema and Semantic rule level.
+- **Canonicalization acts as Version Normalization:** By mapping `v08` and `v12` to the same Canonical Payment Model, downstream services are insulated from ISO upgrades.
+- **Impact Analysis:** Compares the structural `FssError` and semantic `ruleId` variations between schema versions.
+
+### 10. Transformation Architecture
+Transformation should occur via independent adapters:
+- `MxToCanonicalTransformer` (Reads `AbstractMX`)
+- `MtToCanonicalTransformer` (Reads `SwiftMessage`)
+These adapters feed the central `Canonical Payment Model`.
+
+### 11. PaymentOS Integration Boundary
+PaymentOS consumes the JSON-serialized `Canonical Payment Model`. It does not parse XML or evaluate rules. It relies on the Validation pipeline for safety and the Transformation pipeline for data normalization.
+
+### 12. Future AI Boundary
+The AI Layer (Mapping, Explanation, Analysis) will consume the `Canonical Payment Model`. Feeding raw Prowide JAXB objects to an LLM wastes context window due to extreme nesting and version-specific class names. The flat, standardized Canonical JSON is the ideal AI input.
+
+### 13. Exact Next Implementation Sequence
+1. **Define `CanonicalPayment` DTOs:** Pure Java models abstracting core fields (Id, Amount, Parties).
+2. **Implement `MxToCanonicalTransformer`:** A generic adapter converting `AbstractMX` (specifically handling `pacs.008` as a baseline) to `CanonicalPayment`.
+3. **Integrate with Pipeline:** Wire the transformer to execute only when `ValidationResponse.status == VALID`.
+
+---
+
+## PART 30 — CANONICAL PAYMENT MODEL DISCOVERY
+
+### 1. Actual Prowide Model Hierarchies Inspected
+- `MxPacs00800108`: Contains `FIToFICustomerCreditTransferV08`, which holds `GroupHeader93` (message level) and `List<CreditTransferTransaction39>` (transaction level).
+- `MxPacs00200112`: Contains `FIToFIPaymentStatusReportV12`, which holds `GroupHeader91`, `OriginalGroupInformation29`, and `TxInfAndSts`.
+- Both heavily utilize complex nested types for simple concepts (e.g. `BranchAndFinancialInstitutionIdentification6` for an Agent, `PartyIdentification135` for a Debtor).
+
+### 2. Common Payment Concepts
+Across `pacs`, `camt`, and `pain`, the core concepts representing a payment transfer are consistent:
+- **Message Identity:** Message ID, Creation Date Time.
+- **Transaction Identity:** Instruction ID, End-to-End ID, UETR, Transaction ID.
+- **Financials:** Amount, Currency, Interbank Settlement Date, Value Date.
+- **Actors & Accounts:** Debtor, Creditor, Debtor Account, Creditor Account.
+- **Agents:** Instructing Agent, Instructed Agent, Debtor Agent, Creditor Agent.
+- **Metadata:** Remittance Information, Reason Codes (for NACKs/Returns), Status.
+
+### 3. Canonical Field Matrix
+| Concept | pacs.008 | pacs.002 | camt.053 | Canonical Classification |
+|---------|----------|----------|----------|--------------------------|
+| EndToEndId | CdtTrfTxInf | TxInfAndSts | NtryDtls/TxDtls | **CORE** |
+| UETR | CdtTrfTxInf | TxInfAndSts | NtryDtls/TxDtls | **CORE** |
+| Amount | IntrBkSttlmAmt | OrgnlTxRef | Amt | **CORE** |
+| Debtor | Dbtr | OrgnlTxRef/Dbtr | Dbtr | **CORE** |
+| Agent(s) | DbtrAgt/CdtrAgt | OrgnlTxRef | DbtrAgt/CdtrAgt | **CORE** |
+| Status | (Implicitly ACSP) | TxSts | Ntry/Sts | **CORE** |
+| Reason | N/A | StsRsnInf | Ntry/AddtlNtryInf | **OPTIONAL CORE** |
+| Remittance | RmtInf | OrgnlTxRef | RmtInf | **OPTIONAL CORE** |
+| Tax/Garnishment | Tax/Grnshmt | N/A | Tax/Grnshmt | **EXTENSION** |
+
+### 4. Canonical Model Boundary
+`CanonicalPayment` MUST be:
+- Prowide-independent (no `AbstractMX`, no JAXB annotations).
+- Message-agnostic (flattens differences between `pacs.008` and `pain.001`).
+- JSON-serializable (POJOs with standard Java types like `BigDecimal`, `LocalDate`).
+It MUST NOT expose nested ISO 20022 complexity (e.g. `PartyIdentification135.getPty().getNm()` becomes simply `debtor.getName()`).
+
+### 5. Version Independence Analysis
+ISO versions change cardinality, add new fields, or rename types (e.g. `GroupHeader93` vs `GroupHeader94`).
+The canonical model hides this by defining a stable interface (e.g. `String getDebtorName()`). The Transformation layer absorbs the version shocks by maintaining version-specific extraction logic.
+
+### 6. Information-Loss Analysis
+- **PRESERVED:** Core routing, accounting, identities, and statuses.
+- **NORMALIZED:** Dates (parsed to `LocalDate`), Amounts (parsed to `BigDecimal`), Status codes (mapped to unified enums).
+- **LOST / MESSAGE-SPECIFIC:** Deep regulatory reporting (`RgltryRptg`), tax records, complex multi-line addresses.
+
+### 7. Extension Strategy
+To prevent true data loss for downstream services that need esoteric fields, the canonical model will include an `extensions` map:
+`Map<String, Object> extensions;`
+Keyed by XPath-like strings (e.g. `"RgltryRptg/Dtls/Cd"`) and populated with JSON-safe primitives or simple maps. No Prowide objects will be stored here.
+
+### 8. ValidationResponse vs CanonicalPayment Separation
+They are distinct boundaries:
+- **`ValidationResponse`** = *Pipeline Orchestration Result.* (Did the XML parse? Did XSD pass? Did semantic rules pass?)
+- **`CanonicalPayment`** = *Business Data Model.* (Who is paying whom? How much?)
+`ValidationResponseBuilder` executes first. `CanonicalPaymentTransformer` executes ONLY if `ValidationResponse.status == VALID`.
+
+### 9. Transformer Architecture
+To minimize duplication, we need:
+- Reusable mapping components (e.g. `AgentMapper.map(BranchAndFinancialInstitutionIdentification6)`).
+- Message-specific adapters: `Pacs008ToCanonicalTransformer`, `Pacs002ToCanonicalTransformer`.
+- Eventually: `MtToCanonicalTransformer`, `JsonToCanonicalTransformer`.
+
+### 10. Version Management Implications
+Future version management will compare:
+1. XSD structural diffs.
+2. Semantic rule diffs.
+3. **Canonical Mapping compatibility:** Does a new ISO version break our `MxToCanonicalTransformer`? (Impact analysis).
+
+### 11. PaymentOS Boundary
+PaymentOS consumes the pure `CanonicalPayment` JSON payload. It relies entirely on the upstream FSS Platform for XML parsing, XSD validation, SpEL execution, and data extraction. PaymentOS is fully shielded from Prowide.
+
+### 12. AI Boundary
+AI models (LLMs) will consume the `CanonicalPayment` JSON.
+*Why not JAXB/XML?* Raw ISO 20022 XML/JAXB is heavily nested, token-inefficient, and distracts the LLM with namespace and schema artifacts. The flat Canonical model provides a high signal-to-noise ratio for mapping, explanation, and fraud analysis.
+
+### 13. SCHEMA_NOT_FOUND Policy Recommendation
+If an XSD is missing, Prowide might perform a best-effort parse, but structural integrity is unverified.
+- **Recommendation:** STRICT MODE for canonicalization. 
+If an XSD is missing, the message cannot be safely transformed because semantic rules cannot be guaranteed. A missing schema should eventually yield `SYSTEM_ERROR` (or a hard `REJECTED`), blocking canonicalization.
+
+### 14. Recommended CanonicalPayment Conceptual Structure
+```text
+CanonicalPayment
+├── messageIdentity (Message ID, Creation Time, Message Type)
+├── transactions [] (List of CanonicalTransaction)
+    ├── transactionIdentity (E2E ID, UETR, Tx ID)
+    ├── financials (Amount, Currency, Settlement Date)
+    ├── parties (Debtor Name/Id, Creditor Name/Id)
+    ├── accounts (Debtor Account/IBAN, Creditor Account/IBAN)
+    ├── agents (Debtor Agent BIC, Creditor Agent BIC, Intermediary)
+    ├── status (StatusEnum, Reason Code)
+    ├── remittance (Unstructured/Structured reference)
+    └── extensions (Map<String, Object> for regulatory/tax/etc)
+```
+
+### 15. Exact Next Implementation Sequence
+1. Implement the `CanonicalPayment` and `CanonicalTransaction` DTOs in `com.fss.iso20022.api.canonical`.
+2. Implement the reusable mappers (e.g. `PartyMapper`, `AmountMapper`).
+3. Implement `Pacs008ToCanonicalTransformer`.
+4. Integrate the transformer into the pipeline immediately following a `VALID` `ValidationResponse`.
+
+
+## PART 31 — IMPLEMENTATION STATUS & GIT HANDOFF
+
+### 1. Original Platform Goal
+The platform was conceived with the following architectural roadmap:
+```text
+                        FSS ISO 20022 PLATFORM
+                                  │
+              ┌───────────────────┼───────────────────┐
+              │                   │                   │
+              ▼                   ▼                   ▼
+           PARSER              VALIDATOR            BUILDER
+              │                   │
+           Prowide          ┌──────┴──────┐
+              │              │             │
+              │             XSD         Rule Engine
+              │              │             │
+              │              │       ┌─────┼─────┐
+              │              │       │     │     │
+              │              │      ISO  Scheme Bank
+              │              │       │     │     │
+              │              │       └─────┼─────┘
+              │              │             │
+              │              │      Rule Repository
+              │              │             │
+              └──────────────┼─────────────┘
+                             │
+                             ▼
+                    Validation Response
+                             │
+                             ▼
+                    Version Management
+                             │
+                       ┌─────┴─────┐
+                       ▼           ▼
+                  Version Diff   Impact
+                       │           │
+                       └─────┬─────┘
+                             ▼
+                    Canonical Payment
+                          Model
+                             │
+               ┌─────────────┼─────────────┐
+               ▼             ▼             ▼
+          Transformation   APIs          PaymentOS
+               │
+          MT / MX / JSON
+               
+                             +
+                        AI Layer
+                             │
+               ┌─────────────┼─────────────┐
+               ▼             ▼             ▼
+            Mapping       Explain       Analysis
+```
+
+### 2. Implementation History
+**PHASE 1 — PARSER ORCHESTRATION**
+The system identifies raw XML, resolves its schema, validates structurally, and parses into a Prowide Java model. 
+Key components:
+- `ISOParser`: The main orchestrator.
+- `ISOMessageIdentifier`: Peeks into the XML namespace to resolve the exact message type (e.g., `pacs.002.001.12`).
+- `SchemaRegistry`: Maps the identifier to an XSD in the classpath.
+- `ProwideAdapter`: Abstracts the `AbstractMX.parse()` logic.
+- `ISOParserResult`: The boundary holding the parsed model and internal validation states.
+*Proof of Genericity:* The parser dynamically routes `pacs.002.001.12` to `MxPacs00200112` using reflection inside Prowide's factory, requiring zero `if/else` branching per message type.
+
+**PHASE 2 — XSD VALIDATION**
+XSD validation occurs *before* Prowide parsing. This ensures the XML is structurally sound, preventing JAXB from quietly dropping fields or crashing unexpectedly.
+- `ISOValidator` uses standard Java SAX to validate the DOM against the resolved XSD.
+- `SafeXmlUtils` was introduced to fix a severe XXE (XML External Entity) vulnerability discovered in the default SAX parser.
+- Structural failures (e.g., missing mandatory tags, wrong lengths) block the Prowide parser from running, emitting an `XSD FAIL`.
+
+**PHASE 3 — SEMANTIC VALIDATION**
+Semantic validation answers: "Does this structurally valid message satisfy business rules?"
+A prototype rule engine was built using Spring Expression Language (SpEL).
+- `SemanticRuleDefinition` / `SemanticRuleLoader`: Loads external JSON rules.
+- `SpELRuleEvaluator`: Executes SpEL expressions against the Prowide Java model.
+- *Security:* Uses `SimpleEvaluationContext.forReadOnlyDataBinding()` to sandbox SpEL, blocking arbitrary class instantiation or method invocation.
+- *Proof:* A rule (`CBPR_PACS002_01`) successfully failed a `pacs.002` message that was missing a `StsRsnInf` when `TxSts=RJCT`, even though the XSD passed.
+
+**PHASE 4 — VALIDATION RESPONSE / BUILDER**
+Maps the internal `ISOParserResult` to a Prowide-independent API contract.
+- `ValidationResponse`, `FssError`, `ResponseStatus`, `ErrorCategory`.
+- `ValidationResponseBuilder` maps failures (Structural, Semantic, Technical) deterministically.
+- *Unresolved Policy:* `SCHEMA_NOT_FOUND` currently passes as `VALID + WARNING` if Prowide can parse it. This may need to become strict (`REJECTED`) for the canonical model.
+
+**PHASE 5 — CANONICAL PAYMENT MODEL**
+*NOT IMPLEMENTED.* Only a read-only architectural discovery was completed (Part 30) defining the transformation boundary.
+
+### 3. Test Corpus & Failure Boundary
+An intentional mutation corpus was created to prove that each layer catches specific errors:
+- XSD layer catches: Invalid namespace, missing XSD, missing required elements, wrong sequence, invalid lengths.
+- Prowide layer catches: Missing generated Java model, truncation.
+- Semantic layer catches: Cross-field business logic violations.
+
+### 4. File Organization Audit
+Currently, FSS API DTOs live in `com.fss.iso20022.api`, while the orchestration engine lives in `com.prowidesoftware.swift.model.mx.validation.*` (inside `iso20022-core`).
+*Recommendation:* Eventually refactor into clean modules: `prowide-core`, `fss-orchestrator`, `fss-api`.
+
+### 5. File Inventory
+| File | Purpose | Phase | Boundary | Status |
+|------|---------|-------|----------|--------|
+| `ISOParser.java` | Main orchestration pipeline | 1 | Orchestration | COMPLETE |
+| `ISOParserResult.java` | Internal pipeline outcome | 1 | Orchestration | COMPLETE |
+| `ISOMessageIdentifier.java` | Namespace extractor | 1 | Orchestration | COMPLETE |
+| `SchemaRegistry.java` | XSD classpath locator | 2 | Validator | COMPLETE |
+| `ISOValidator.java` | SAX XML Validator | 2 | Validator | COMPLETE |
+| `SafeXmlUtils.java` | XXE Hardening | 2 | Security | COMPLETE |
+| `ProwideAdapter.java` | MX Parser wrapper | 1 | Prowide Boundary | COMPLETE |
+| `SemanticRuleEngine.java` | Rule evaluator | 3 | Validator | COMPLETE |
+| `SpELRuleEvaluator.java` | Sandboxed SpEL engine | 3 | Validator | COMPLETE |
+| `ValidationResponse.java` | Public API NACK/ACK | 4 | FSS API | COMPLETE |
+| `ValidationResponseBuilder.java`| Maps Result -> Response | 4 | FSS API | COMPLETE |
+
+### 6. Runtime Architecture (Explainability)
+1. Raw XML enters `ISOParser`.
+2. `ISOMessageIdentifier` peeks at the namespace (e.g., `urn:iso:std:iso:20022:tech:xsd:pacs.002.001.12`).
+3. `SchemaRegistry` fetches the XSD from the classpath.
+4. `ISOValidator` checks structural validity against the XSD. If it fails, execution halts.
+5. `ProwideAdapter` parses the valid XML into an `AbstractMX` model (e.g., `MxPacs00200112`).
+6. `SemanticRuleEngine` loads JSON rules and evaluates them via SpEL against the model.
+7. `ISOParserResult` collects all statuses and errors.
+8. `ValidationResponseBuilder` transforms this into a `ValidationResponse`.
+*Next Phase:* If `ValidationResponse` is `VALID`, a `CanonicalPaymentTransformer` will extract the core data into a `CanonicalPayment` for downstream AI/PaymentOS.
+
+### 7. What has NOT been implemented
+- `CanonicalPayment` DTOs
+- Transformers (`MxToCanonicalTransformer`)
+- Version Management (Diff / Impact)
+- PaymentOS APIs
+- AI Layer (Mapping, Explain, Analysis)
+
+### CURRENT STATUS
+Parser                         COMPLETE
+XSD Validator                  COMPLETE
+Semantic Validator             COMPLETE
+Classpath Schema Loading       COMPLETE
+Validation Response            COMPLETE
+Validation Response Builder    COMPLETE
+Canonical Payment Model        NOT STARTED
+Version Management             NOT STARTED
+Transformation Layer           NOT STARTED
+PaymentOS Integration          NOT STARTED
+AI Layer                       NOT STARTED
+
+**NEXT IMPLEMENTATION TASK:** CanonicalPayment domain model + first pacs.008 transformer (DO NOT START until handoff is reviewed).

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.888.888.88" 
+           xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           targetNamespace="urn:iso:std:iso:20022:tech:xsd:pacs.888.888.88" 
+           elementFormDefault="qualified">
+    <xs:element name="Document" type="Document"/>
+    <xs:complexType name="Document">
+        <xs:sequence>
+            <xs:element name="TestMessage" type="TestMessageV01"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TestMessageV01">
+        <xs:sequence>
+            <xs:element name="Id" type="Max35Text"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="Max35Text">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="35"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

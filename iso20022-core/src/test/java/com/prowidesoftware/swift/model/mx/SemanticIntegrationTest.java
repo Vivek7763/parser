@@ -205,4 +205,103 @@ public class SemanticIntegrationTest {
         assertEquals(1, result.getSemanticResult().getTechnicalErrors().size());
         assertTrue(result.getSemanticResult().getViolations().isEmpty());
     }
+
+    @Test
+    void testVersionApplicability_Skipped() throws Exception {
+        SemanticRuleDefinition rule = new SemanticRuleDefinition();
+        rule.setRuleId("VERS_1");
+        rule.setMessageType("pacs.002");
+        // Only applicable for version 99, but we pass version 12
+        rule.setVersions(java.util.Collections.singletonList("99"));
+        rule.setSeverity("FATAL");
+        rule.setErrorPath("GrpHdr");
+        rule.setExpression("false"); // Always fails if evaluated
+        realEngine.addRule(rule);
+
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pacs.002.001.12\">\n"
+                + "    <FIToFIPmtStsRpt>\n"
+                + "        <GrpHdr>\n"
+                + "            <MsgId>MSG123</MsgId>\n"
+                + "            <CreDtTm>2023-10-01T12:00:00Z</CreDtTm>\n"
+                + "        </GrpHdr>\n"
+                + "    </FIToFIPmtStsRpt>\n"
+                + "</Document>";
+
+        ISOParserResult result = ISOParser.parse(xml, realEngine);
+        assertEquals(ISOParserResult.SemanticValidationStatus.NOT_APPLICABLE, result.getSemanticStatus());
+        assertEquals(
+                0,
+                result.getSemanticResult().getEvaluatedRuleCount(),
+                "Rule should not be evaluated due to version mismatch");
+    }
+
+    @Test
+    void testVersionApplicability_Matched() throws Exception {
+        SemanticRuleDefinition rule = new SemanticRuleDefinition();
+        rule.setRuleId("VERS_2");
+        rule.setMessageType("pacs.002");
+        rule.setVersions(java.util.Collections.singletonList("12"));
+        rule.setSeverity("FATAL");
+        rule.setErrorPath("GrpHdr");
+        rule.setExpression("FIToFIPmtStsRpt?.grpHdr?.msgId == 'MSG123'"); // evaluates to true (PASS)
+        realEngine.addRule(rule);
+
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pacs.002.001.12\">\n"
+                + "    <FIToFIPmtStsRpt>\n"
+                + "        <GrpHdr>\n"
+                + "            <MsgId>MSG123</MsgId>\n"
+                + "            <CreDtTm>2023-10-01T12:00:00Z</CreDtTm>\n"
+                + "        </GrpHdr>\n"
+                + "    </FIToFIPmtStsRpt>\n"
+                + "</Document>";
+
+        ISOParserResult result = ISOParser.parse(xml, realEngine);
+        assertEquals(ISOParserResult.SemanticValidationStatus.PASS, result.getSemanticStatus());
+        assertEquals(
+                1,
+                result.getSemanticResult().getEvaluatedRuleCount(),
+                "Rule should be evaluated because version matches");
+    }
+
+    @Test
+    void testMultiMessage_Camt() throws Exception {
+        SemanticRuleDefinition rule = new SemanticRuleDefinition();
+        rule.setRuleId("CAMT_1");
+        rule.setMessageType("camt.053");
+        rule.setSeverity("FATAL");
+        rule.setErrorPath("BkToCstmrStmt");
+        rule.setExpression("bkToCstmrStmt?.grpHdr?.msgId == 'SDFSDF'");
+        realEngine.addRule(rule);
+
+        String xml = new String(
+                java.nio.file.Files.readAllBytes(java.nio.file.Paths.get("src/test/resources/camt.053.001.07.xml")));
+        ISOParserResult result = ISOParser.parse(xml, realEngine);
+
+        assertEquals(ISOParserResult.ModelParsingStatus.SUCCESS, result.getModelStatus());
+        assertEquals(ISOParserResult.SemanticValidationStatus.PASS, result.getSemanticStatus());
+        assertEquals(1, result.getSemanticResult().getEvaluatedRuleCount());
+        assertFalse(result.getSemanticResult().hasFailures());
+    }
+
+    @Test
+    void testMultiMessage_Seev() throws Exception {
+        SemanticRuleDefinition rule = new SemanticRuleDefinition();
+        rule.setRuleId("SEEV_1");
+        rule.setMessageType("seev.031");
+        rule.setSeverity("FATAL");
+        rule.setErrorPath("CorpActnNtfctn");
+        rule.setExpression("corpActnNtfctn?.corpActnGnlInf?.corpActnEvtId == '111111111'");
+        realEngine.addRule(rule);
+
+        String xml = new String(
+                java.nio.file.Files.readAllBytes(java.nio.file.Paths.get("src/test/resources/seev.031.002.09.xml")));
+        ISOParserResult result = ISOParser.parse(xml, realEngine);
+
+        assertEquals(ISOParserResult.ModelParsingStatus.SUCCESS, result.getModelStatus());
+        assertEquals(ISOParserResult.SemanticValidationStatus.PASS, result.getSemanticStatus());
+        assertEquals(1, result.getSemanticResult().getEvaluatedRuleCount());
+        assertFalse(result.getSemanticResult().hasFailures());
+    }
 }

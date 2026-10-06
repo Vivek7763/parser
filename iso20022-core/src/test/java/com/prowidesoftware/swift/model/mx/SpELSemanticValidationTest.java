@@ -253,11 +253,15 @@ public class SpELSemanticValidationTest {
         assertFalse(hasNumViolation);
         assertFalse(hasNumError);
 
-        // Date rule triggers a technical evaluation error because SpEL cannot seamlessly compare OffsetDateTime with
-        // String natively
+        // Date rule triggers NO technical evaluation error because SpEL can now natively compare OffsetDateTime with
+        // String thanks to the registered TypeConverter
         boolean hasDateError =
                 semRes.getTechnicalErrors().stream().anyMatch(e -> e.getRuleId().equals("DATE_1"));
-        assertTrue(hasDateError, "SpEL natively fails on OffsetDateTime comparison without TypeConverter");
+        boolean hasDateViolation =
+                semRes.getViolations().stream().anyMatch(v -> v.getRuleId().equals("DATE_1"));
+
+        assertFalse(hasDateError, "SpEL should successfully evaluate OffsetDateTime comparison with TypeConverter");
+        assertFalse(hasDateViolation, "The date comparison should pass");
     }
 
     @Test

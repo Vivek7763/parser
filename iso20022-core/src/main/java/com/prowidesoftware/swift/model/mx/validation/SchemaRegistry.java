@@ -13,16 +13,19 @@ import javax.xml.validation.SchemaFactory;
  * Registry that resolves a compiled {@link javax.xml.validation.Schema} from an {@link ISOMessageIdentifier}.
  *
  * <h2>Schema layout convention</h2>
- * Schemas are stored under a configurable base directory (default: {@value #DEFAULT_SCHEMAS_BASE_DIR}) in the
- * following structure:
+ * Schemas are resolved from the classpath or from a configurable base directory
+ * (default: {@value #DEFAULT_SCHEMAS_BASE_DIR}) in the following structure:
  * <pre>
  * {baseDir}/{businessArea}/{messageType}/{messageType}.xsd
  * e.g.  schemas/pacs/pacs.008.001.14/pacs.008.001.14.xsd
  * </pre>
  *
- * <h2>Path resolution</h2>
- * The registry tries the base directory first, then a sibling {@code ../{baseDir}} path, making it work both
- * from the project root (Gradle) and from the {@code iso20022-core} module directory.
+ * <h2>Path resolution priority</h2>
+ * 1. <b>Classpath:</b> The registry attempts to load the XSD as a classpath resource via
+ *    {@link Class#getResource(String)} using the absolute path format {@code /schemas/...}.
+ * 2. <b>Filesystem Override:</b> If not found on the classpath, it tries the configured
+ *    base directory first, then a sibling {@code ../{baseDir}} path, making it work both
+ *    from the project root (Gradle) and from the {@code iso20022-core} module directory.
  *
  * <h2>Caching</h2>
  * Compiled {@link Schema} objects are cached by message-type string after the first successful load. The cache is
@@ -86,6 +89,23 @@ public final class SchemaRegistry {
         }
 
         String category = extractCategory(identifier);
+
+        // Candidate 1: Classpath Resource (Primary)
+        String resourcePath = "/schemas/" + category + "/" + identifier + "/" + identifier + ".xsd";
+        java.net.URL schemaUrl = SchemaRegistry.class.getResource(resourcePath);
+
+        if (schemaUrl != null) {
+            try {
+                SchemaFactory sf = SafeXmlUtils.schemaFactory();
+                Schema schema = sf.newSchema(schemaUrl);
+                schemaCache.put(identifier, schema);
+                return schema;
+            } catch (Exception e) {
+                throw new SchemaCompilationException(identifier, e);
+            }
+        }
+
+        // Candidate 2: Filesystem Override (Fallback)
         File schemaFile = locateFile(category, identifier);
 
         if (schemaFile == null || !schemaFile.exists()) {
