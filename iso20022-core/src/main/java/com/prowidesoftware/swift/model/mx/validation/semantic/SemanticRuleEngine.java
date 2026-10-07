@@ -27,6 +27,10 @@ public class SemanticRuleEngine {
     }
 
     public SemanticValidationResult validate(AbstractMX model) {
+        return validate(model, null);
+    }
+
+    public SemanticValidationResult validate(AbstractMX model, RuleContext context) {
         SemanticValidationResult result = new SemanticValidationResult();
 
         String modelProcess = model.getBusinessProcess();
@@ -34,6 +38,7 @@ public class SemanticRuleEngine {
                 + String.format("%03d", model.getVariant()) + "."
                 + String.format("%02d", model.getVersion());
         String modelId = modelProcess + "." + modelVariant;
+        String canonicalVersion = String.format("%02d", model.getVersion());
 
         for (SemanticRuleDefinition rule : rules) {
             // Rule Applicability
@@ -41,7 +46,14 @@ public class SemanticRuleEngine {
                 continue;
             }
             if (rule.getVersions() != null && !rule.getVersions().isEmpty()) {
-                if (!rule.getVersions().contains(String.valueOf(model.getVersion()))) {
+                if (!rule.getVersions().contains(canonicalVersion)) {
+                    continue;
+                }
+            }
+            if (rule.getProfiles() != null && !rule.getProfiles().isEmpty()) {
+                if (context == null
+                        || context.getActiveProfile() == null
+                        || !rule.getProfiles().contains(context.getActiveProfile())) {
                     continue;
                 }
             }

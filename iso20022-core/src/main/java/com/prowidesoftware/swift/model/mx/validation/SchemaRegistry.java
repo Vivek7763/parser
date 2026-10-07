@@ -97,6 +97,7 @@ public final class SchemaRegistry {
         if (schemaUrl != null) {
             try {
                 SchemaFactory sf = SafeXmlUtils.schemaFactory();
+                sf.setResourceResolver(new ClasspathResourceResolver());
                 Schema schema = sf.newSchema(schemaUrl);
                 schemaCache.put(identifier, schema);
                 return schema;
@@ -114,6 +115,7 @@ public final class SchemaRegistry {
 
         try {
             SchemaFactory sf = SafeXmlUtils.schemaFactory();
+            sf.setResourceResolver(new ClasspathResourceResolver());
             Schema schema = sf.newSchema(schemaFile);
             schemaCache.put(identifier, schema);
             return schema;

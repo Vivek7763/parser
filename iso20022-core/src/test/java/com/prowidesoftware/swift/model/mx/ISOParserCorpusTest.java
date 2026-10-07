@@ -52,6 +52,12 @@ public class ISOParserCorpusTest {
     @Test
     void test05_appHdrVariation() throws Exception {
         ISOParserResult res = ISOParser.parse(loadCorpus("5_apphdr_variation.xml"));
+        if (res.getSchemaStatus() != SchemaValidationStatus.PASS) {
+            System.err.println("Tech error: " + res.getTechnicalError());
+            if (res.getValidationResult() != null) {
+                System.err.println("Val errors: " + res.getValidationResult().getErrors());
+            }
+        }
         assertEquals(SchemaValidationStatus.PASS, res.getSchemaStatus());
         assertEquals(ModelParsingStatus.SUCCESS, res.getModelStatus());
     }

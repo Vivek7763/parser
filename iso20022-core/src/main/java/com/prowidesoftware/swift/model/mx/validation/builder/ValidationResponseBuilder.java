@@ -24,16 +24,17 @@ public final class ValidationResponseBuilder {
         // Prevent instantiation
     }
 
-    public static ValidationResponse build(ISOParserResult result) {
+    public static ValidationResponse build(ISOParserResult result, SemanticValidationResult semanticResult) {
         String messageId =
                 result.getIdentifier() != null ? result.getIdentifier().getFullMessageType() : null;
         List<FssError> errors = new ArrayList<>();
-        ResponseStatus status = determineStatusAndMapErrors(result, errors);
+        ResponseStatus status = determineStatusAndMapErrors(result, semanticResult, errors);
 
         return new ValidationResponse(messageId, status, errors);
     }
 
-    private static ResponseStatus determineStatusAndMapErrors(ISOParserResult result, List<FssError> errors) {
+    private static ResponseStatus determineStatusAndMapErrors(
+            ISOParserResult result, SemanticValidationResult semanticResult, List<FssError> errors) {
         // 1. Unidentifiable Input (Hard Technical Failure)
         if (result.getSchemaStatus() == ISOParserResult.SchemaValidationStatus.UNIDENTIFIABLE_INPUT) {
             errors.add(new FssError(
@@ -86,10 +87,9 @@ public final class ValidationResponseBuilder {
         }
 
         // 6. Semantic Validation Results
-        SemanticValidationResult semResult = result.getSemanticResult();
-        if (semResult != null) {
+        if (semanticResult != null) {
             // Semantic Technical Errors
-            for (TechnicalEvaluationError tee : semResult.getTechnicalErrors()) {
+            for (TechnicalEvaluationError tee : semanticResult.getTechnicalErrors()) {
                 errors.add(new FssError(
                         ErrorCategory.TECHNICAL,
                         "SEMANTIC_TECH_ERROR",
@@ -99,15 +99,15 @@ public final class ValidationResponseBuilder {
             }
 
             // Semantic Violations
-            for (SemanticViolation sv : semResult.getViolations()) {
+            for (SemanticViolation sv : semanticResult.getViolations()) {
                 errors.add(new FssError(
                         ErrorCategory.SEMANTIC, sv.getRuleId(), sv.getMessage(), sv.getErrorPath(), sv.getSeverity()));
             }
 
-            if (result.getSemanticStatus() == ISOParserResult.SemanticValidationStatus.TECHNICAL_ERROR) {
+            if (!semanticResult.getTechnicalErrors().isEmpty()) {
                 return ResponseStatus.SYSTEM_ERROR;
             }
-            if (result.getSemanticStatus() == ISOParserResult.SemanticValidationStatus.FAIL) {
+            if (semanticResult.hasFailures()) {
                 return ResponseStatus.REJECTED;
             }
         }

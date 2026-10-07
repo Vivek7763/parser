@@ -1,6 +1,7 @@
 package com.prowidesoftware.swift.model.mx.validation.semantic;
 
 import com.prowidesoftware.swift.model.mx.AbstractMX;
+import java.util.Collection;
 import java.util.List;
 import javax.xml.datatype.DatatypeFactory;
 import org.springframework.core.convert.support.DefaultConversionService;
@@ -135,6 +136,17 @@ public class SpELRuleEvaluator implements RuleEvaluator {
                 return delegate.lookupVariable(name);
             }
         };
+
+        try {
+            this.context.setVariable("parseInt", SpELRuleHelpers.class.getDeclaredMethod("parseInt", String.class));
+            this.context.setVariable(
+                    "getCurrencyDecimals",
+                    SpELRuleHelpers.class.getDeclaredMethod("getCurrencyDecimals", String.class));
+            this.context.setVariable(
+                    "sum", SpELRuleHelpers.class.getDeclaredMethod("sum", Collection.class, String.class));
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException("Failed to register SpEL helpers", e);
+        }
     }
 
     @Override

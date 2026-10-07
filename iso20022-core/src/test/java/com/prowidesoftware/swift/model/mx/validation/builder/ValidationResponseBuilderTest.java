@@ -29,11 +29,12 @@ class ValidationResponseBuilderTest {
                 .identifier(mockId)
                 .schemaStatus(ISOParserResult.SchemaValidationStatus.PASS)
                 .modelStatus(ISOParserResult.ModelParsingStatus.SUCCESS)
-                .semanticStatus(ISOParserResult.SemanticValidationStatus.PASS)
                 .parsedModel(mockModel)
                 .build();
 
-        ValidationResponse response = ValidationResponseBuilder.build(result);
+        SemanticValidationResult semResult = new SemanticValidationResult(); // No violations
+
+        ValidationResponse response = ValidationResponseBuilder.build(result, semResult);
 
         assertThat(response.getStatus()).isEqualTo(ResponseStatus.VALID);
         assertThat(response.getMessageId()).isEqualTo("pacs.002.001.12");
@@ -45,10 +46,9 @@ class ValidationResponseBuilderTest {
         ISOParserResult result = new ISOParserResult.Builder()
                 .schemaStatus(ISOParserResult.SchemaValidationStatus.UNIDENTIFIABLE_INPUT)
                 .modelStatus(ISOParserResult.ModelParsingStatus.SKIPPED)
-                .semanticStatus(ISOParserResult.SemanticValidationStatus.SKIPPED)
                 .build();
 
-        ValidationResponse response = ValidationResponseBuilder.build(result);
+        ValidationResponse response = ValidationResponseBuilder.build(result, null);
 
         assertThat(response.getStatus()).isEqualTo(ResponseStatus.REJECTED);
         assertThat(response.getMessageId()).isNull();
@@ -66,11 +66,12 @@ class ValidationResponseBuilderTest {
                 .identifier(mockId)
                 .schemaStatus(ISOParserResult.SchemaValidationStatus.SCHEMA_NOT_FOUND)
                 .modelStatus(ISOParserResult.ModelParsingStatus.SUCCESS)
-                .semanticStatus(ISOParserResult.SemanticValidationStatus.PASS)
                 .parsedModel(mockModel)
                 .build();
 
-        ValidationResponse response = ValidationResponseBuilder.build(result);
+        SemanticValidationResult semResult = new SemanticValidationResult();
+
+        ValidationResponse response = ValidationResponseBuilder.build(result, semResult);
 
         // Valid but contains a warning
         assertThat(response.getStatus()).isEqualTo(ResponseStatus.VALID);
@@ -92,10 +93,9 @@ class ValidationResponseBuilderTest {
                 .schemaStatus(ISOParserResult.SchemaValidationStatus.FAIL)
                 .validationResult(xsdResult)
                 .modelStatus(ISOParserResult.ModelParsingStatus.SKIPPED)
-                .semanticStatus(ISOParserResult.SemanticValidationStatus.SKIPPED)
                 .build();
 
-        ValidationResponse response = ValidationResponseBuilder.build(result);
+        ValidationResponse response = ValidationResponseBuilder.build(result, null);
 
         assertThat(response.getStatus()).isEqualTo(ResponseStatus.REJECTED);
         assertThat(response.getErrors()).hasSize(1);
@@ -114,10 +114,9 @@ class ValidationResponseBuilderTest {
                 .identifier(mockId)
                 .schemaStatus(ISOParserResult.SchemaValidationStatus.PASS)
                 .modelStatus(ISOParserResult.ModelParsingStatus.PROWIDE_MODEL_UNAVAILABLE_OR_PARSE_ERROR)
-                .semanticStatus(ISOParserResult.SemanticValidationStatus.SKIPPED)
                 .build();
 
-        ValidationResponse response = ValidationResponseBuilder.build(result);
+        ValidationResponse response = ValidationResponseBuilder.build(result, null);
 
         assertThat(response.getStatus()).isEqualTo(ResponseStatus.SYSTEM_ERROR);
         assertThat(response.getErrors()).hasSize(1);
@@ -138,11 +137,9 @@ class ValidationResponseBuilderTest {
                 .schemaStatus(ISOParserResult.SchemaValidationStatus.PASS)
                 .modelStatus(ISOParserResult.ModelParsingStatus.SUCCESS)
                 .parsedModel(mockModel)
-                .semanticStatus(ISOParserResult.SemanticValidationStatus.FAIL)
-                .semanticResult(semResult)
                 .build();
 
-        ValidationResponse response = ValidationResponseBuilder.build(result);
+        ValidationResponse response = ValidationResponseBuilder.build(result, semResult);
 
         assertThat(response.getStatus()).isEqualTo(ResponseStatus.REJECTED);
         assertThat(response.getErrors()).hasSize(1);
@@ -165,11 +162,9 @@ class ValidationResponseBuilderTest {
                 .schemaStatus(ISOParserResult.SchemaValidationStatus.PASS)
                 .modelStatus(ISOParserResult.ModelParsingStatus.SUCCESS)
                 .parsedModel(mockModel)
-                .semanticStatus(ISOParserResult.SemanticValidationStatus.TECHNICAL_ERROR)
-                .semanticResult(semResult)
                 .build();
 
-        ValidationResponse response = ValidationResponseBuilder.build(result);
+        ValidationResponse response = ValidationResponseBuilder.build(result, semResult);
 
         assertThat(response.getStatus()).isEqualTo(ResponseStatus.SYSTEM_ERROR);
         assertThat(response.getErrors()).hasSize(1);
@@ -188,11 +183,10 @@ class ValidationResponseBuilderTest {
                 .identifier(mockId)
                 .schemaStatus(ISOParserResult.SchemaValidationStatus.FAIL)
                 .modelStatus(ISOParserResult.ModelParsingStatus.SKIPPED)
-                .semanticStatus(ISOParserResult.SemanticValidationStatus.SKIPPED)
                 .technicalError("Schema compilation crashed")
                 .build();
 
-        ValidationResponse response = ValidationResponseBuilder.build(result);
+        ValidationResponse response = ValidationResponseBuilder.build(result, null);
 
         assertThat(response.getStatus()).isEqualTo(ResponseStatus.SYSTEM_ERROR);
 

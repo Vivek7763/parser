@@ -17,7 +17,12 @@ public class ValidationResult {
     }
 
     public boolean isValid() {
-        return errors.isEmpty();
+        for (ValidationError error : errors) {
+            if ("ERROR".equalsIgnoreCase(error.getSeverity()) || "FATAL".equalsIgnoreCase(error.getSeverity())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public String getMessageId() {

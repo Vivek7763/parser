@@ -1,7 +1,6 @@
 package com.prowidesoftware.swift.model.mx.validation;
 
 import com.prowidesoftware.swift.model.mx.AbstractMX;
-import com.prowidesoftware.swift.model.mx.validation.semantic.SemanticValidationResult;
 import java.util.Collections;
 import java.util.List;
 
@@ -65,36 +64,11 @@ public final class ISOParserResult {
         SKIPPED
     }
 
-    /**
-     * Outcome of the Semantic Validation phase.
-     *
-     * <ul>
-     *   <li>{@link #PASS} – business rules executed successfully with no violations.</li>
-     *   <li>{@link #FAIL} – one or more business rule violations were detected.</li>
-     *   <li>{@link #NOT_APPLICABLE} – the message type had no semantic rules defined.</li>
-     *   <li>{@link #TECHNICAL_ERROR} – semantic engine encountered a technical failure (e.g. malformed expression).</li>
-     *   <li>{@link #SKIPPED} – semantic validation intentionally bypassed because prior phases (XSD or Model) failed.</li>
-     * </ul>
-     */
-    public enum SemanticValidationStatus {
-        PASS,
-        FAIL,
-        NOT_APPLICABLE,
-        TECHNICAL_ERROR,
-        SKIPPED
-    }
-
-    // -------------------------------------------------------------------------
-    // Fields
-    // -------------------------------------------------------------------------
-
     private final ISOMessageIdentifier identifier;
     private final SchemaValidationStatus schemaStatus;
     private final ModelParsingStatus modelStatus;
-    private final SemanticValidationStatus semanticStatus;
     private final ValidationResult validationResult;
     private final AbstractMX parsedModel;
-    private final SemanticValidationResult semanticResult;
     private final String technicalError;
 
     // -------------------------------------------------------------------------
@@ -105,10 +79,8 @@ public final class ISOParserResult {
         this.identifier = b.identifier;
         this.schemaStatus = b.schemaStatus;
         this.modelStatus = b.modelStatus;
-        this.semanticStatus = b.semanticStatus;
         this.validationResult = b.validationResult;
         this.parsedModel = b.parsedModel;
-        this.semanticResult = b.semanticResult;
         this.technicalError = b.technicalError;
     }
 
@@ -134,11 +106,6 @@ public final class ISOParserResult {
         return modelStatus;
     }
 
-    /** Semantic validation outcome. Never {@code null}. */
-    public SemanticValidationStatus getSemanticStatus() {
-        return semanticStatus;
-    }
-
     /**
      * Structured XSD validation result including per-error line/column detail, or {@code null} when
      * {@link #getSchemaStatus()} is not {@link SchemaValidationStatus#PASS} or {@link SchemaValidationStatus#FAIL}.
@@ -161,13 +128,6 @@ public final class ISOParserResult {
      */
     public AbstractMX getParsedModel() {
         return parsedModel;
-    }
-
-    /**
-     * Returns the semantic validation result, or {@code null} when semantic validation was skipped.
-     */
-    public SemanticValidationResult getSemanticResult() {
-        return semanticResult;
     }
 
     /**
@@ -201,12 +161,8 @@ public final class ISOParserResult {
                 + schemaStatus
                 + ", modelStatus="
                 + modelStatus
-                + ", semanticStatus="
-                + semanticStatus
                 + ", validationErrors="
                 + getValidationErrors().size()
-                + ", semanticViolations="
-                + (semanticResult != null ? semanticResult.getViolations().size() : 0)
                 + ", parsedModel="
                 + (parsedModel != null ? parsedModel.getClass().getSimpleName() : "null")
                 + (technicalError != null ? ", technicalError=" + technicalError : "")
@@ -222,10 +178,8 @@ public final class ISOParserResult {
         private ISOMessageIdentifier identifier;
         private SchemaValidationStatus schemaStatus;
         private ModelParsingStatus modelStatus;
-        private SemanticValidationStatus semanticStatus;
         private ValidationResult validationResult;
         private AbstractMX parsedModel;
-        private SemanticValidationResult semanticResult;
         private String technicalError;
 
         public Builder identifier(ISOMessageIdentifier identifier) {
@@ -243,11 +197,6 @@ public final class ISOParserResult {
             return this;
         }
 
-        public Builder semanticStatus(SemanticValidationStatus semanticStatus) {
-            this.semanticStatus = semanticStatus;
-            return this;
-        }
-
         public Builder validationResult(ValidationResult validationResult) {
             this.validationResult = validationResult;
             return this;
@@ -255,11 +204,6 @@ public final class ISOParserResult {
 
         public Builder parsedModel(AbstractMX parsedModel) {
             this.parsedModel = parsedModel;
-            return this;
-        }
-
-        public Builder semanticResult(SemanticValidationResult semanticResult) {
-            this.semanticResult = semanticResult;
             return this;
         }
 
@@ -309,14 +253,6 @@ public final class ISOParserResult {
             if (modelStatus != ModelParsingStatus.SUCCESS && parsedModel != null) {
                 throw new IllegalStateException(
                         "Impossible state: modelStatus is " + modelStatus + " but parsedModel is non-null");
-            }
-            if (semanticStatus == null) {
-                // Ensure backward compatibility during test transitions, default to SKIPPED if not set
-                semanticStatus = SemanticValidationStatus.SKIPPED;
-            }
-            if (modelStatus != ModelParsingStatus.SUCCESS && semanticStatus != SemanticValidationStatus.SKIPPED) {
-                throw new IllegalStateException(
-                        "Impossible state: modelStatus is " + modelStatus + " but semanticStatus is " + semanticStatus);
             }
             return new ISOParserResult(this);
         }

@@ -41,29 +41,47 @@ public final class ISOValidator {
      * @throws Exception                                 for unexpected SAX/parser infrastructure failures
      */
     public static ValidationResult validate(String xml, ISOMessageIdentifier identifier) throws Exception {
-        if (identifier == null) {
-            throw new IllegalArgumentException("identifier must not be null");
+        return validate(xml, identifier, null);
+    }
+
+    public static ValidationResult validate(
+            String xml, ISOMessageIdentifier docIdentifier, ISOMessageIdentifier appHdrIdentifier) throws Exception {
+        if (docIdentifier == null) {
+            throw new IllegalArgumentException("docIdentifier must not be null");
         }
 
-        ValidationResult result = new ValidationResult(identifier.getFullMessageType());
+        ValidationResult result = new ValidationResult(docIdentifier.getFullMessageType());
 
-        // Throws SchemaNotFoundException when not registered — typed, no string matching needed
-        Schema schema = SchemaRegistry.resolve(identifier);
+        // Validate AppHdr if present
+        if (appHdrIdentifier != null) {
+            try {
+                Schema appHdrSchema = SchemaRegistry.resolve(appHdrIdentifier);
+                validateSubtree(xml, appHdrSchema, "AppHdr", result, "[AppHdr] ");
+            } catch (SchemaRegistry.SchemaNotFoundException e) {
+                // If AppHdr schema is missing, it's missing. Add a warning or let it be.
+                result.addError(new ValidationError(
+                        "WARNING", "AppHdr schema not found: " + appHdrIdentifier.getFullMessageType(), -1, -1));
+            }
+        }
 
+        // Validate Document
+        Schema docSchema = SchemaRegistry.resolve(docIdentifier);
+        validateSubtree(xml, docSchema, "Document", result, "");
+
+        return result;
+    }
+
+    private static void validateSubtree(
+            String xml, Schema schema, String targetElement, ValidationResult result, String errorPrefix)
+            throws Exception {
         XMLReader baseReader = SafeXmlUtils.reader(true, null);
 
-        /*
-         * XMLFilter that forwards only the <Document> subtree to the validator.
-         * Namespace prefix mappings from ancestor elements are forwarded regardless of the active
-         * "inDocument" flag so that prefix declarations from wrapper elements are still visible.
-         */
-        XMLFilter documentFilter = new XMLFilterImpl(baseReader) {
-            private boolean inDocument = false;
-            private int depth = 0; // depth within Document subtree
+        XMLFilter filter = new XMLFilterImpl(baseReader) {
+            private boolean inTarget = false;
+            private int depth = 0;
 
             @Override
             public void startPrefixMapping(String prefix, String uri) throws SAXException {
-                // Always forward prefix mappings — they may be declared on ancestor wrapper elements
                 super.startPrefixMapping(prefix, uri);
             }
 
@@ -75,10 +93,10 @@ public final class ISOValidator {
             @Override
             public void startElement(String uri, String localName, String qName, org.xml.sax.Attributes atts)
                     throws SAXException {
-                if (!inDocument && "Document".equals(localName)) {
-                    inDocument = true;
+                if (!inTarget && targetElement.equals(localName)) {
+                    inTarget = true;
                 }
-                if (inDocument) {
+                if (inTarget) {
                     depth++;
                     super.startElement(uri, localName, qName, atts);
                 }
@@ -86,53 +104,51 @@ public final class ISOValidator {
 
             @Override
             public void endElement(String uri, String localName, String qName) throws SAXException {
-                if (inDocument) {
+                if (inTarget) {
                     super.endElement(uri, localName, qName);
                     depth--;
                     if (depth == 0) {
-                        inDocument = false;
+                        inTarget = false;
                     }
                 }
             }
 
             @Override
             public void characters(char[] ch, int start, int length) throws SAXException {
-                if (inDocument) {
+                if (inTarget) {
                     super.characters(ch, start, length);
                 }
             }
 
             @Override
             public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
-                if (inDocument) {
+                if (inTarget) {
                     super.ignorableWhitespace(ch, start, length);
                 }
             }
         };
 
         InputSource source = new InputSource(new StringReader(xml));
-        SAXSource saxSource = new SAXSource(documentFilter, source);
+        SAXSource saxSource = new SAXSource(filter, source);
 
         Validator validator = schema.newValidator();
         validator.setErrorHandler(new ErrorHandler() {
             @Override
             public void warning(SAXParseException ex) throws SAXException {
-                result.addError(
-                        new ValidationError("WARNING", ex.getMessage(), ex.getLineNumber(), ex.getColumnNumber()));
+                result.addError(new ValidationError(
+                        "WARNING", errorPrefix + ex.getMessage(), ex.getLineNumber(), ex.getColumnNumber()));
             }
 
             @Override
             public void error(SAXParseException ex) throws SAXException {
-                // Do not re-throw: accumulate all errors in one pass
-                result.addError(
-                        new ValidationError("ERROR", ex.getMessage(), ex.getLineNumber(), ex.getColumnNumber()));
+                result.addError(new ValidationError(
+                        "ERROR", errorPrefix + ex.getMessage(), ex.getLineNumber(), ex.getColumnNumber()));
             }
 
             @Override
             public void fatalError(SAXParseException ex) throws SAXException {
-                result.addError(
-                        new ValidationError("FATAL", ex.getMessage(), ex.getLineNumber(), ex.getColumnNumber()));
-                // Fatal errors indicate the stream is unrecoverable; re-throw to terminate parsing
+                result.addError(new ValidationError(
+                        "FATAL", errorPrefix + ex.getMessage(), ex.getLineNumber(), ex.getColumnNumber()));
                 throw ex;
             }
         });
@@ -140,23 +156,20 @@ public final class ISOValidator {
         try {
             validator.validate(saxSource);
         } catch (SAXParseException e) {
-            // Fatal parse error occurred (e.g. truncated or malformed XML tags).
-            // ErrorHandler.fatalError() already added the ValidationError("FATAL", ...) to result before re-throwing.
-            // If for any reason result is still empty, add it defensively now.
             if (result.isValid()) {
-                result.addError(new ValidationError("FATAL", e.getMessage(), e.getLineNumber(), e.getColumnNumber()));
+                result.addError(new ValidationError(
+                        "FATAL", errorPrefix + e.getMessage(), e.getLineNumber(), e.getColumnNumber()));
             }
         } catch (SAXException e) {
             if (result.isValid()) {
                 if (e.getCause() instanceof SAXParseException) {
                     SAXParseException spe = (SAXParseException) e.getCause();
-                    result.addError(
-                            new ValidationError("FATAL", spe.getMessage(), spe.getLineNumber(), spe.getColumnNumber()));
+                    result.addError(new ValidationError(
+                            "FATAL", errorPrefix + spe.getMessage(), spe.getLineNumber(), spe.getColumnNumber()));
                 } else {
-                    result.addError(new ValidationError("FATAL", e.getMessage(), -1, -1));
+                    result.addError(new ValidationError("FATAL", errorPrefix + e.getMessage(), -1, -1));
                 }
             }
         }
-        return result;
     }
 }

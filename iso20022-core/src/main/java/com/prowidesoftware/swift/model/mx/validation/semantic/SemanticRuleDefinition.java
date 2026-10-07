@@ -10,6 +10,15 @@ public class SemanticRuleDefinition {
     private String expression;
     private String errorPath;
     private String message;
+    private List<String> profiles;
+
+    public List<String> getProfiles() {
+        return profiles;
+    }
+
+    public void setProfiles(List<String> profiles) {
+        this.profiles = profiles;
+    }
 
     public String getRuleId() {
         return ruleId;

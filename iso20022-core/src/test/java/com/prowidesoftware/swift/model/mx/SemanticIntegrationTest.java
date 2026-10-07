@@ -6,6 +6,7 @@ import com.prowidesoftware.swift.model.mx.validation.ISOParser;
 import com.prowidesoftware.swift.model.mx.validation.ISOParserResult;
 import com.prowidesoftware.swift.model.mx.validation.semantic.SemanticRuleDefinition;
 import com.prowidesoftware.swift.model.mx.validation.semantic.SemanticRuleEngine;
+import com.prowidesoftware.swift.model.mx.validation.semantic.SemanticValidationResult;
 import com.prowidesoftware.swift.model.mx.validation.semantic.SpELRuleEvaluator;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +14,6 @@ import org.junit.jupiter.api.Test;
 
 public class SemanticIntegrationTest {
 
-    private SemanticRuleEngine mockEngine;
     private SpELRuleEvaluator evaluator;
     private SemanticRuleEngine realEngine;
 
@@ -23,29 +23,9 @@ public class SemanticIntegrationTest {
         // which still allows ModelParsing and SemanticValidation to run.
     }
 
-    private static class SemanticRuleEngineWrapper extends SemanticRuleEngine {
-        private boolean called = false;
-
-        public SemanticRuleEngineWrapper(SpELRuleEvaluator evaluator) {
-            super(evaluator);
-        }
-
-        @Override
-        public com.prowidesoftware.swift.model.mx.validation.semantic.SemanticValidationResult validate(
-                com.prowidesoftware.swift.model.mx.AbstractMX model) {
-            called = true;
-            return super.validate(model);
-        }
-
-        public boolean isCalled() {
-            return called;
-        }
-    }
-
     @BeforeEach
     void setup() {
         evaluator = new SpELRuleEvaluator();
-        mockEngine = new SemanticRuleEngineWrapper(evaluator);
         realEngine = new SemanticRuleEngine(evaluator);
     }
 
@@ -71,13 +51,16 @@ public class SemanticIntegrationTest {
                 + "    </FIToFIPmtStsRpt>\n"
                 + "</Document>";
 
-        ISOParserResult result = ISOParser.parse(xml, realEngine);
+        ISOParserResult result = ISOParser.parse(xml);
 
         assertTrue(result.getSchemaStatus() == ISOParserResult.SchemaValidationStatus.PASS
                 || result.getSchemaStatus() == ISOParserResult.SchemaValidationStatus.SCHEMA_NOT_FOUND);
         assertEquals(ISOParserResult.ModelParsingStatus.SUCCESS, result.getModelStatus());
-        assertEquals(ISOParserResult.SemanticValidationStatus.PASS, result.getSemanticStatus());
-        assertTrue(result.getSemanticResult().getViolations().isEmpty());
+
+        SemanticValidationResult semResult = realEngine.validate(result.getParsedModel());
+        assertTrue(semResult.getViolations().isEmpty());
+        assertTrue(semResult.getTechnicalErrors().isEmpty());
+        assertEquals(1, semResult.getEvaluatedRuleCount());
     }
 
     @Test
@@ -102,13 +85,15 @@ public class SemanticIntegrationTest {
                 + "    </FIToFIPmtStsRpt>\n"
                 + "</Document>";
 
-        ISOParserResult result = ISOParser.parse(xml, realEngine);
+        ISOParserResult result = ISOParser.parse(xml);
 
         assertTrue(result.getSchemaStatus() == ISOParserResult.SchemaValidationStatus.PASS
                 || result.getSchemaStatus() == ISOParserResult.SchemaValidationStatus.SCHEMA_NOT_FOUND);
         assertEquals(ISOParserResult.ModelParsingStatus.SUCCESS, result.getModelStatus());
-        assertEquals(ISOParserResult.SemanticValidationStatus.FAIL, result.getSemanticStatus());
-        assertEquals(1, result.getSemanticResult().getViolations().size());
+
+        SemanticValidationResult semResult = realEngine.validate(result.getParsedModel());
+        assertEquals(1, semResult.getViolations().size());
+        assertTrue(semResult.hasFailures());
     }
 
     @Test
@@ -122,13 +107,11 @@ public class SemanticIntegrationTest {
                 "    </FIToFIPmtStsRpt>\n"
                 + "</Document>";
 
-        ISOParserResult result = ISOParser.parse(invalidXml, mockEngine);
+        ISOParserResult result = ISOParser.parse(invalidXml);
 
         assertEquals(ISOParserResult.SchemaValidationStatus.FAIL, result.getSchemaStatus());
         assertEquals(ISOParserResult.ModelParsingStatus.SKIPPED, result.getModelStatus());
-        assertEquals(ISOParserResult.SemanticValidationStatus.SKIPPED, result.getSemanticStatus());
-
-        assertFalse(((SemanticRuleEngineWrapper) mockEngine).isCalled(), "Engine should not be called when XSD fails");
+        assertFalse(result.isModelParsed());
     }
 
     @Test
@@ -141,16 +124,12 @@ public class SemanticIntegrationTest {
                 + "    </Fake>\n"
                 + "</Document>";
 
-        ISOParserResult result = ISOParser.parse(noModelXml, mockEngine);
+        ISOParserResult result = ISOParser.parse(noModelXml);
 
         assertEquals(ISOParserResult.SchemaValidationStatus.SCHEMA_NOT_FOUND, result.getSchemaStatus());
         assertEquals(
                 ISOParserResult.ModelParsingStatus.PROWIDE_MODEL_UNAVAILABLE_OR_PARSE_ERROR, result.getModelStatus());
-        assertEquals(ISOParserResult.SemanticValidationStatus.SKIPPED, result.getSemanticStatus());
-
-        assertFalse(
-                ((SemanticRuleEngineWrapper) mockEngine).isCalled(),
-                "Engine should not be called when Model is unavailable");
+        assertFalse(result.isModelParsed());
     }
 
     @Test
@@ -166,12 +145,15 @@ public class SemanticIntegrationTest {
                 + "    </FIToFIPmtStsRpt>\n"
                 + "</Document>";
 
-        ISOParserResult result = ISOParser.parse(xml, realEngine);
+        ISOParserResult result = ISOParser.parse(xml);
 
         assertTrue(result.getSchemaStatus() == ISOParserResult.SchemaValidationStatus.PASS
                 || result.getSchemaStatus() == ISOParserResult.SchemaValidationStatus.SCHEMA_NOT_FOUND);
         assertEquals(ISOParserResult.ModelParsingStatus.SUCCESS, result.getModelStatus());
-        assertEquals(ISOParserResult.SemanticValidationStatus.NOT_APPLICABLE, result.getSemanticStatus());
+
+        SemanticValidationResult semResult = realEngine.validate(result.getParsedModel());
+        assertEquals(0, semResult.getEvaluatedRuleCount());
+        assertFalse(semResult.hasFailures());
     }
 
     @Test
@@ -196,14 +178,15 @@ public class SemanticIntegrationTest {
                 + "    </FIToFIPmtStsRpt>\n"
                 + "</Document>";
 
-        ISOParserResult result = ISOParser.parse(xml, realEngine);
+        ISOParserResult result = ISOParser.parse(xml);
 
         assertTrue(result.getSchemaStatus() == ISOParserResult.SchemaValidationStatus.PASS
                 || result.getSchemaStatus() == ISOParserResult.SchemaValidationStatus.SCHEMA_NOT_FOUND);
         assertEquals(ISOParserResult.ModelParsingStatus.SUCCESS, result.getModelStatus());
-        assertEquals(ISOParserResult.SemanticValidationStatus.TECHNICAL_ERROR, result.getSemanticStatus());
-        assertEquals(1, result.getSemanticResult().getTechnicalErrors().size());
-        assertTrue(result.getSemanticResult().getViolations().isEmpty());
+
+        SemanticValidationResult semResult = realEngine.validate(result.getParsedModel());
+        assertEquals(1, semResult.getTechnicalErrors().size());
+        assertTrue(semResult.getViolations().isEmpty());
     }
 
     @Test
@@ -228,12 +211,9 @@ public class SemanticIntegrationTest {
                 + "    </FIToFIPmtStsRpt>\n"
                 + "</Document>";
 
-        ISOParserResult result = ISOParser.parse(xml, realEngine);
-        assertEquals(ISOParserResult.SemanticValidationStatus.NOT_APPLICABLE, result.getSemanticStatus());
-        assertEquals(
-                0,
-                result.getSemanticResult().getEvaluatedRuleCount(),
-                "Rule should not be evaluated due to version mismatch");
+        ISOParserResult result = ISOParser.parse(xml);
+        SemanticValidationResult semResult = realEngine.validate(result.getParsedModel());
+        assertEquals(0, semResult.getEvaluatedRuleCount(), "Rule should not be evaluated due to version mismatch");
     }
 
     @Test
@@ -257,12 +237,9 @@ public class SemanticIntegrationTest {
                 + "    </FIToFIPmtStsRpt>\n"
                 + "</Document>";
 
-        ISOParserResult result = ISOParser.parse(xml, realEngine);
-        assertEquals(ISOParserResult.SemanticValidationStatus.PASS, result.getSemanticStatus());
-        assertEquals(
-                1,
-                result.getSemanticResult().getEvaluatedRuleCount(),
-                "Rule should be evaluated because version matches");
+        ISOParserResult result = ISOParser.parse(xml);
+        SemanticValidationResult semResult = realEngine.validate(result.getParsedModel());
+        assertEquals(1, semResult.getEvaluatedRuleCount(), "Rule should be evaluated because version matches");
     }
 
     @Test
@@ -277,12 +254,12 @@ public class SemanticIntegrationTest {
 
         String xml = new String(
                 java.nio.file.Files.readAllBytes(java.nio.file.Paths.get("src/test/resources/camt.053.001.07.xml")));
-        ISOParserResult result = ISOParser.parse(xml, realEngine);
+        ISOParserResult result = ISOParser.parse(xml);
 
         assertEquals(ISOParserResult.ModelParsingStatus.SUCCESS, result.getModelStatus());
-        assertEquals(ISOParserResult.SemanticValidationStatus.PASS, result.getSemanticStatus());
-        assertEquals(1, result.getSemanticResult().getEvaluatedRuleCount());
-        assertFalse(result.getSemanticResult().hasFailures());
+        SemanticValidationResult semResult = realEngine.validate(result.getParsedModel());
+        assertEquals(1, semResult.getEvaluatedRuleCount());
+        assertFalse(semResult.hasFailures());
     }
 
     @Test
@@ -297,11 +274,11 @@ public class SemanticIntegrationTest {
 
         String xml = new String(
                 java.nio.file.Files.readAllBytes(java.nio.file.Paths.get("src/test/resources/seev.031.002.09.xml")));
-        ISOParserResult result = ISOParser.parse(xml, realEngine);
+        ISOParserResult result = ISOParser.parse(xml);
 
         assertEquals(ISOParserResult.ModelParsingStatus.SUCCESS, result.getModelStatus());
-        assertEquals(ISOParserResult.SemanticValidationStatus.PASS, result.getSemanticStatus());
-        assertEquals(1, result.getSemanticResult().getEvaluatedRuleCount());
-        assertFalse(result.getSemanticResult().hasFailures());
+        SemanticValidationResult semResult = realEngine.validate(result.getParsedModel());
+        assertEquals(1, semResult.getEvaluatedRuleCount());
+        assertFalse(semResult.hasFailures());
     }
 }

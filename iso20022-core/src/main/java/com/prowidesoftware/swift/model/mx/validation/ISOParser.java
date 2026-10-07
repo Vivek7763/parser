@@ -1,8 +1,6 @@
 package com.prowidesoftware.swift.model.mx.validation;
 
 import com.prowidesoftware.swift.model.mx.AbstractMX;
-import com.prowidesoftware.swift.model.mx.validation.semantic.SemanticRuleEngine;
-import com.prowidesoftware.swift.model.mx.validation.semantic.SemanticValidationResult;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,40 +57,49 @@ public final class ISOParser {
      * @throws IllegalArgumentException if {@code xml} is {@code null}
      */
     public static ISOParserResult parse(String xml) {
-        return parse(xml, null);
-    }
-
-    /**
-     * Parses and validates an ISO 20022 XML message with optional semantic validation.
-     *
-     * @param xml the raw XML string; must not be {@code null}
-     * @param semanticEngine the semantic engine to execute business rules (can be {@code null} to skip semantic validation)
-     * @return a fully-populated {@link ISOParserResult}; never {@code null}
-     * @throws IllegalArgumentException if {@code xml} is {@code null}
-     */
-    public static ISOParserResult parse(String xml, SemanticRuleEngine semanticEngine) {
         if (xml == null) {
             throw new IllegalArgumentException("xml must not be null");
         }
 
         // ── STEP 1: IDENTIFICATION ─────────────────────────────────────────
+        MessageStructureInfo info = MessageStructureInfo.parse(xml);
         ISOMessageIdentifier identifier = ProwideAdapter.extractIdentifier(xml);
         if (identifier == null || !identifier.isWellFormed()) {
             return new ISOParserResult.Builder()
                     .identifier(null)
                     .schemaStatus(ISOParserResult.SchemaValidationStatus.UNIDENTIFIABLE_INPUT)
                     .modelStatus(ISOParserResult.ModelParsingStatus.PROWIDE_MODEL_UNAVAILABLE_OR_PARSE_ERROR)
-                    .semanticStatus(ISOParserResult.SemanticValidationStatus.SKIPPED)
                     .build();
+        }
+
+        // AppHdr/Document mismatch check
+        String msgDefIdr = info.getMsgDefIdr();
+        ValidationResult validationResult = null;
+        if (info.getAppHdrIdentifier() != null && msgDefIdr != null) {
+            if (!msgDefIdr.equals(identifier.getFullMessageType())) {
+                validationResult = new ValidationResult(identifier.getFullMessageType());
+                validationResult.addError(new ValidationError(
+                        "FATAL",
+                        "AppHdr MsgDefIdr '" + msgDefIdr + "' does not match Document namespace '"
+                                + identifier.getFullMessageType() + "'",
+                        -1,
+                        -1));
+                return new ISOParserResult.Builder()
+                        .identifier(identifier)
+                        .schemaStatus(ISOParserResult.SchemaValidationStatus.FAIL)
+                        .modelStatus(ISOParserResult.ModelParsingStatus.SKIPPED)
+                        .validationResult(validationResult)
+                        .technicalError("AppHdr/Document mismatch")
+                        .build();
+            }
         }
 
         // ── STEP 2 & 3: SCHEMA RESOLUTION + STRUCTURAL VALIDATION ─────────
         ISOParserResult.SchemaValidationStatus schemaStatus;
-        ValidationResult validationResult = null;
         String technicalError = null;
 
         try {
-            validationResult = ISOValidator.validate(xml, identifier);
+            validationResult = ISOValidator.validate(xml, identifier, info.getAppHdrIdentifier());
             schemaStatus = validationResult.isValid()
                     ? ISOParserResult.SchemaValidationStatus.PASS
                     : ISOParserResult.SchemaValidationStatus.FAIL;
@@ -139,7 +146,6 @@ public final class ISOParser {
                     .identifier(identifier)
                     .schemaStatus(schemaStatus)
                     .modelStatus(ISOParserResult.ModelParsingStatus.SKIPPED)
-                    .semanticStatus(ISOParserResult.SemanticValidationStatus.SKIPPED)
                     .validationResult(validationResult)
                     .technicalError(technicalError)
                     .build();
@@ -151,40 +157,12 @@ public final class ISOParser {
                 ? ISOParserResult.ModelParsingStatus.SUCCESS
                 : ISOParserResult.ModelParsingStatus.PROWIDE_MODEL_UNAVAILABLE_OR_PARSE_ERROR;
 
-        // ── STEP 5: SEMANTIC VALIDATION ────────────────────────────────────
-        ISOParserResult.SemanticValidationStatus semanticStatus = ISOParserResult.SemanticValidationStatus.SKIPPED;
-        SemanticValidationResult semanticResult = null;
-
-        if (modelStatus == ISOParserResult.ModelParsingStatus.SUCCESS && semanticEngine != null) {
-            try {
-                semanticResult = semanticEngine.validate(parsedModel);
-                if (!semanticResult.getTechnicalErrors().isEmpty()) {
-                    semanticStatus = ISOParserResult.SemanticValidationStatus.TECHNICAL_ERROR;
-                } else if (semanticResult.hasFailures()) {
-                    semanticStatus = ISOParserResult.SemanticValidationStatus.FAIL;
-                } else if (semanticResult.getEvaluatedRuleCount() == 0) {
-                    semanticStatus = ISOParserResult.SemanticValidationStatus.NOT_APPLICABLE;
-                } else {
-                    semanticStatus = ISOParserResult.SemanticValidationStatus.PASS;
-                }
-            } catch (Exception e) {
-                // Failsafe catch around the engine itself
-                semanticStatus = ISOParserResult.SemanticValidationStatus.TECHNICAL_ERROR;
-                technicalError = technicalError == null
-                        ? "Semantic Engine Error: " + e.getMessage()
-                        : technicalError + " | Semantic Engine Error: " + e.getMessage();
-                log.log(Level.WARNING, "Semantic Engine encountered unexpected exception", e);
-            }
-        }
-
         return new ISOParserResult.Builder()
                 .identifier(identifier)
                 .schemaStatus(schemaStatus)
                 .modelStatus(modelStatus)
-                .semanticStatus(semanticStatus)
                 .validationResult(validationResult)
                 .parsedModel(parsedModel)
-                .semanticResult(semanticResult)
                 .technicalError(technicalError)
                 .build();
     }

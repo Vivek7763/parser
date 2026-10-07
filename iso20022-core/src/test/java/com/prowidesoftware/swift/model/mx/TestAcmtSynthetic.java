@@ -12,11 +12,10 @@ public class TestAcmtSynthetic {
         System.out.println("--- " + name + " ---");
         try {
             ISOParserResult result = ISOParser.parse(xml);
-            ValidationResponse response = ValidationResponseBuilder.build(result);
+            ValidationResponse response = ValidationResponseBuilder.build(result, null);
             System.out.println("Identification = " + (result.getIdentifier() != null ? "SUCCESS" : "FAIL"));
             System.out.println("XSD = " + result.getSchemaStatus());
             System.out.println("Model = " + result.getModelStatus());
-            System.out.println("Semantic = " + result.getSemanticStatus());
             System.out.println("Final Response = " + response.getStatus());
             if (response.getErrors() != null && !response.getErrors().isEmpty()) {
                 System.out.println(

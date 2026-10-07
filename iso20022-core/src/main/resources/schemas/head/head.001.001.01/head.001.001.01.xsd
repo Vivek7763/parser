@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- TEST FIXTURE - NOT AN OFFICIAL ISO SCHEMA -->
+<xs:schema xmlns="urn:iso:std:iso:20022:tech:xsd:head.001.001.01" 
+           xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           targetNamespace="urn:iso:std:iso:20022:tech:xsd:head.001.001.01" 
+           elementFormDefault="qualified">
+    <xs:element name="AppHdr" type="AppHdr_Test"/>
+    <xs:complexType name="AppHdr_Test">
+        <xs:sequence>
+            <xs:element name="Fr" minOccurs="0" type="xs:anyType"/>
+            <xs:element name="To" minOccurs="0" type="xs:anyType"/>
+            <xs:element name="BizMsgIdr" type="xs:string" minOccurs="0"/>
+            <xs:element name="MsgDefIdr" type="xs:string" minOccurs="0"/>
+            <xs:element name="BizSvc" type="xs:string" minOccurs="0"/>
+            <xs:element name="CreDt" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
